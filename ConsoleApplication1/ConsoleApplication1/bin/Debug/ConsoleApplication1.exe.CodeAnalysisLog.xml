@@ -1,0 +1,663 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 14.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="14.0">
+ <Targets>
+  <Target Name="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe">
+   <Modules>
+    <Module Name="consoleapplication1.exe">
+     <Messages>
+      <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+       <Issue Name="NoStrongName" Certainty="95" Level="CriticalError">Signez 'ConsoleApplication1.exe' avec une clé de nom fort.</Issue>
+      </Message>
+      <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+       <Issue Certainty="95" Level="Error">Marquer 'ConsoleApplication1.exe' avec CLSCompliant(true) car il expose les types visibles de l'extérieur.</Issue>
+      </Message>
+     </Messages>
+     <Namespaces>
+      <Namespace Name="">
+       <Types>
+        <Type Name="Author" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+           <Issue Certainty="75" Level="Warning">Scellez 'Author' si possible.</Issue>
+          </Message>
+          <Message TypeName="DeclareTypesInNamespaces" Category="Microsoft.Design" CheckId="CA1050" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+           <Issue Certainty="95" Level="Error">'Author' doit être déclaré dans un espace de noms.</Issue>
+          </Message>
+          <Message TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+           <Issue Certainty="95" Level="Error">Ajoutez un accesseur de propriété en lecture seule pour l'argument positionnel 'name' de l'attribut 'Author'.</Issue>
+          </Message>
+          <Message TypeName="MarkAttributesWithAttributeUsage" Category="Microsoft.Design" CheckId="CA1018" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+           <Issue Certainty="95" Level="Error">Spécifiez AttributeUsage sur 'Author'.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#GetName()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="WebRequestAsync.cs" Line="19">Changez 'Author.GetName()' en propriété si besoin est.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#version" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="90" Level="Error">Dans la mesure où le champ 'Author.version' est visible en dehors de son type déclarant, établissez un accès privé et ajoutez une propriété, ayant la même accessibilité que celle du champ actuel, pour en assurer l'accès.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="WebRequestAsync" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="DeclareTypesInNamespaces" Category="Microsoft.Design" CheckId="CA1050" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+           <Issue Certainty="95" Level="Error">'WebRequestAsync' doit être déclaré dans un espace de noms.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#.ctor(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="PassSystemUriObjectsInsteadOfStrings" Category="Microsoft.Usage" CheckId="CA2234" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="WebRequestAsync.cs" Line="29">Modifiez 'WebRequestAsync.WebRequestAsync(string)' pour qu'il appelle 'WebRequest.Create(Uri)' à la place de 'WebRequest.Create(string)'.</Issue>
+            </Message>
+            <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="60" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="WebRequestAsync.cs" Line="29">Changez le type du paramètre 'url' de la méthode 'WebRequestAsync.WebRequestAsync(string)' de string à System.Uri, ou fournissez une surcharge de 'WebRequestAsync.WebRequestAsync(string)', qui autorise la transmission de 'url' en tant qu'objet System.Uri.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#DeSerializeToJson`1(System.IO.Stream)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="De" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="WebRequestAsync.cs" Line="74">Corrigez la casse de 'De' dans le nom de membre 'WebRequestAsync.DeSerializeToJson&lt;T&gt;(Stream)' et changez-la en 'DE'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#DisplayWebResponse(System.IAsyncResult)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="WebRequestAsync.cs" Line="62">Modifiez 'WebRequestAsync.DisplayWebResponse(IAsyncResult)' pour intercepter une exception plus spécifique que 'Exception' ou levez de nouveau l'exception.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#StartWebRequest()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="WebRequestAsync.cs" Line="40">Modifiez 'WebRequestAsync.StartWebRequest()' pour intercepter une exception plus spécifique que 'Exception' ou levez de nouveau l'exception.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="ConsoleApplication1">
+       <Types>
+        <Type Name="Activity" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#value" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="value" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="124">Corrigez la casse de 'value' dans le nom de membre 'Activity.value' et changez-la en 'Value'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Category" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#value" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="value" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="300">Corrigez la casse de 'value' dans le nom de membre 'Category.value' et changez-la en 'Value'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Country" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#value" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="value" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="52">Corrigez la casse de 'value' dans le nom de membre 'Country.value' et changez-la en 'Value'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Genre" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#value" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="value" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="41">Corrigez la casse de 'value' dans le nom de membre 'Genre.value' et changez-la en 'Value'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Human" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+           <Issue Certainty="95" Level="CriticalWarning">Modifiez l'accessibilité de tous les constructeurs publics dans 'Human' en protected.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#age" Kind="Field" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning">Il semble que le champ 'Human.age' n'est jamais utilisé ou est uniquement assigné. Utilisez ou supprimez ce champ.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="IndustryIdentifier" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Type" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="BaseType" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="BookFromGoogle.cs" Line="16">Le nom de propriété 'IndustryIdentifier.Type' porte à confusion en raison de l'existence de la méthode héritée 'object.GetType()'. Renommez ou supprimez cette propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Man" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#sayHi(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Hi" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="Person.cs" Line="75">Corrigez la casse de 'Hi' dans le nom de membre 'Man.sayHi(string)' et changez-la en 'HI'.</Issue>
+            </Message>
+            <Message Id="say" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="Person.cs" Line="75">Corrigez la casse de 'say' dans le nom de membre 'Man.sayHi(string)' et changez-la en 'Say'.</Issue>
+            </Message>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="Person.cs" Line="75">Le paramètre 'this' (ou 'Me' dans VB) de 'Man.sayHi(string)' n'est jamais utilisé. Marquez le membre comme static (ou Shared dans VB) ou utilisez 'this'/'Me' dans le corps de la méthode ou au moins un accesseur de propriété, si nécessaire.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Movie" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#BestPressReview" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="575">Modifiez 'Movie.BestPressReview' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CastMember" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="527">Modifiez 'Movie.CastMember' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Feature" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="563">Modifiez 'Movie.Feature' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Genre" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="509">Modifiez 'Movie.Genre' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#HasDVD" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="DVD" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="545">Corrigez la casse de 'DVD' dans le nom de membre 'Movie.HasDVD' et changez-la en 'Dvd'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#HasVOD" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="VOD" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="539">Corrigez la casse de 'VOD' dans le nom de membre 'Movie.HasVOD' et changez-la en 'Vod'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#HelpfulNegativeReview" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="572">Modifiez 'Movie.HelpfulNegativeReview' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#HelpfulPositiveReview" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="569">Modifiez 'Movie.HelpfulPositiveReview' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Link" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="554">Modifiez 'Movie.Link' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Nationality" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="506">Modifiez 'Movie.Nationality' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#News" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="560">Modifiez 'Movie.News' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Trivia" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="566">Modifiez 'Movie.Trivia' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#WorstPressReview" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="578">Modifiez 'Movie.WorstPressReview' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="MovieType" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#value" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="value" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="19">Corrigez la casse de 'value' dans le nom de membre 'MovieType.value' et changez-la en 'Value'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Nationality" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#value" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="value" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="30">Corrigez la casse de 'value' dans le nom de membre 'Nationality.value' et changez-la en 'Value'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="News" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Category" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="326">Modifiez 'News.Category' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Program" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#Main(System.String[])" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.Console.WriteLine(System.String)" TypeName="Ne pas passer de littéraux en paramètres localisés" Category="Microsoft.Globalization" CheckId="CA1303" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="DependsOnFix">
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="Program.cs" Line="41">La méthode 'Program.Main(string[])' passe une chaîne littérale en paramètre 'value' d'un appel à 'Console.WriteLine(string)'. Extrayez à la place la ou les chaînes suivantes d'une table de ressources : "\nCe message est censé s\'afficher avant les reponses des requêtes asynchrones".</Issue>
+            </Message>
+            <Message Id="args" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="Program.cs" Line="10">Le paramètre 'args' de 'Program.Main(string[])' n'est jamais utilisé. Supprimez-le ou utilisez-le dans le corps de la méthode.</Issue>
+            </Message>
+            <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="Program.cs" Line="38">Le comportement de 'string.Format(string, object)' pouvant varier en fonction des paramètres régionaux de l'utilisateur actuel, remplacez cet appel dans 'Program.Main(string[])' par un appel à 'string.Format(IFormatProvider, string, params object[])'. Si le résultat de 'string.Format(IFormatProvider, string, params object[])' s'affiche au niveau de l'utilisateur, spécifiez 'CultureInfo.CurrentCulture' comme paramètre 'IFormatProvider'. Sinon, si le résultat est stocké et consulté par le logiciel, comme lorsqu'il est enregistré sur disque ou dans une base de données, spécifiez 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Rating" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#value" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="value" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="205">Corrigez la casse de 'value' dans le nom de membre 'Rating.value' et changez-la en 'Value'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ReleaseState" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#value" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="value" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="63">Corrigez la casse de 'value' dans le nom de membre 'ReleaseState.value' et changez-la en 'Value'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Statistics" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Rating" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="MovieFromAllocine.cs" Line="258">Modifiez 'Statistics.Rating' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="vertebra" Kind="Interface" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="vertebra" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="85" Level="Error">Corrigez la casse de 'vertebra' dans le nom de type 'vertebra' et changez-la en 'Vertebra'.</Issue>
+          </Message>
+          <Message Id="I" TypeName="IdentifiersShouldHaveCorrectPrefix" Category="Microsoft.Naming" CheckId="CA1715" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+           <Issue Name="Interface" Certainty="95" Level="Error">Préfixez le nom d'interface 'vertebra' avec la lettre 'I'.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#haveArms()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="have" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Corrigez la casse de 'have' dans le nom de membre 'vertebra.haveArms()' et changez-la en 'Have'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#haveLegs()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="have" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Corrigez la casse de 'have' dans le nom de membre 'vertebra.haveLegs()' et changez-la en 'Have'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#walk()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="walk" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Corrigez la casse de 'walk' dans le nom de membre 'vertebra.walk()' et changez-la en 'Walk'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="VolumeInfo" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Authors" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="BookFromGoogle.cs" Line="72">Modifiez 'VolumeInfo.Authors' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Categories" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="BookFromGoogle.cs" Line="102">Modifiez 'VolumeInfo.Categories' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#IndustryIdentifiers" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-05 14:43:15Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1" File="BookFromGoogle.cs" Line="84">Modifiez 'VolumeInfo.IndustryIdentifiers' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012">
+   <Name>Les types abstraits ne doivent pas avoir de constructeurs</Name>
+   <Description>Les constructeurs publics pour les types abstraits ne sont pas justifiés, car vous ne pouvez pas créer des instances de types abstraits.</Description>
+   <Resolution Name="Default">Modifiez l'accessibilité de tous les constructeurs publics dans {0} en protected.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182126.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalWarning</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
+   <Name>Les assemblys doivent porter des noms forts valides</Name>
+   <Description>L'assembly possède un nom fort non valide ou aucun nom fort, ou le nom fort est valide uniquement en raison de la configuration de l'ordinateur. L'assembly ne doit pas être déployé dans cet état. Les causes les plus courantes de ce problème sont les suivantes : 1) Le contenu de l'assembly a été modifié après la signature de l'assembly. 2) Le processus de signature a échoué. 3) La signature de l'assembly a été différée. 4) Il existait une clé de Registre qui permettait la réussite du contrôle (laquelle aurait été impossible dans le cas contraire).</Description>
+   <Resolution Name="NoStrongName">Signez {0} avec une clé de nom fort.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182127.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813">
+   <Name>Évitez les attributs unsealed</Name>
+   <Description>Scellez les types d'attribut pour de meilleures performances. Le fait de sceller les types d'attribut permet d'accroître les performances lors de la réflexion sur les attributs personnalisés.</Description>
+   <Resolution Name="Default">Scellez {0} si possible.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182267.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
+   <Name>Évitez les champs privés inutilisés</Name>
+   <Description>Ces champs privés visiblement inaccessibles dans l'assembly ont été détectés. Si cette violation provoque une erreur, signalez le problème à l'équipe Visual Studio Code Analysis.</Description>
+   <Resolution Name="Default">Il semble que le champ {0} n'est jamais utilisé ou est uniquement assigné. Utilisez ou supprimez ce champ.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms245042.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227">
+   <Name>Les propriétés de collection doivent être en lecture seule</Name>
+   <Description>Les propriétés qui retournent des collections doivent être en lecture seule afin que les utilisateurs ne puissent pas entièrement remplacer le magasin de stockage. Les utilisateurs peuvent toujours modifier le contenu de la collection en appelant des méthodes appropriées dans la collection même. Notez que la classe XmlSerializer bénéficie d'une prise en charge spéciale pour la désérialisation des collections en lecture seule. Pour plus d'informations, consultez la présentation de XmlSerializer.</Description>
+   <Resolution Name="Default">Modifiez {0} et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182327.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="DeclareTypesInNamespaces" Category="Microsoft.Design" CheckId="CA1050">
+   <Name>Déclarer les types dans des espaces de noms</Name>
+   <Description>Un type doit être défini dans un espace de noms pour éviter la duplication.</Description>
+   <Resolution Name="Default">{0} doit être déclaré dans un espace de noms.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182134.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019">
+   <Name>Définir des accesseurs pour les arguments d'attribut</Name>
+   <Description>Fournissez des accesseurs pour les arguments nommés et positionnels. Chaque argument positionnel sur un attribut doit déclarer une propriété en lecture seule du même nom (mais avec une casse différente). Chaque argument nommé doit fournir une propriété lecture/écriture du même nom (mais avec une casse différente).</Description>
+   <Resolution Name="Default">Ajoutez un accesseur de propriété en lecture seule pour l'argument positionnel {0} de l'attribut {1}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182136.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+   <Name>Ne pas intercepter des types d'exception générale</Name>
+   <Description>Vous ne devez pas intercepter Exception ou SystemException. L'interception de types d'exceptions génériques peut masquer des problèmes de runtime de la part de l'utilisateur de la bibliothèque et peut compliquer le débogage. Vous devez intercepter uniquement les exceptions que vous pouvez gérer correctement.</Description>
+   <Resolution Name="Default">Modifiez {0} pour intercepter une exception plus spécifique que {1} ou levez de nouveau l'exception.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182137.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051">
+   <Name>Ne pas déclarer de champs d'instances visibles</Name>
+   <Description>Les champs d'instance qui sont visibles à l'extérieur du type qui les déclare limitent votre capacité à modifier les informations d'implémentation détaillées de ces éléments de données. Utilisez des propriétés à la place. Elles n'entravent pas la capacité d'utilisation ou les performances, et elles offrent une grande flexibilité dans la mesure où elles masquent les informations d'implémentation détaillées des données sous-jacentes.</Description>
+   <Resolution Name="Default">Dans la mesure où le champ {0} est visible en dehors de son type déclarant, établissez un accès privé et ajoutez une propriété, ayant la même accessibilité que celle du champ actuel, pour en assurer l'accès.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182141.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="90">Error</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
+   <Name>La casse des identificateurs doit être correcte</Name>
+   <Description>Les identificateurs de type, d'espace de noms et de membre utilisent la casse Pascal. Les identificateurs de paramètre utilisent une casse mixte. Les acronymes à deux lettres au sein de ces identificateurs doivent apparaître en majuscules. Par exemple, utilisez System.IO à la place de System.Io. Les acronymes de trois lettres ou plus ne doivent pas utiliser la casse Pascal. Par exemple, utilisez System.Xml à la place de System.XML. Dans la casse Pascal, la première lettre de chaque mot est en majuscule (par exemple, BackColor). Dans la casse mixte, la première lettre du premier mot est en minuscules et la première lettre de tous les mots suivants, en majuscule (par exemple, backgroundColor). Bien qu'il soit courant que certains acronymes à deux lettres n'apparaissent pas entièrement en majuscules, ils ne devraient pour autant pas être exclus pour cette raison. Par exemple, 'DbConnection' est courant mais incorrect ; utilisez DBConnection à la place. Il peut s'avérer nécessaire d'enfreindre cette règle pour des raisons de compatibilité avec un jeu de symboles non managé existant. Néanmoins, en règle générale, ces symboles ne doivent pas être visibles en dehors de l'assembly qui les utilise.</Description>
+   <Resolution Name="Member">Corrigez la casse de '{0}' dans le nom de membre {1} et changez-la en '{2}'.</Resolution>
+   <Resolution Name="Type">Corrigez la casse de '{0}' dans le nom de type {1} et changez-la en '{2}'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182240.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="85">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldHaveCorrectPrefix" Category="Microsoft.Naming" CheckId="CA1715">
+   <Name>Les identificateurs doivent être dotés d'un préfixe correct</Name>
+   <Description>Préfixez les noms d'interfaces avec la lettre 'I' pour indiquer que le type est une interface, comme dans IFormattable. Préfixez les noms de paramètres de type générique avec la lettre 'T' et attribuez-leur des noms descriptifs, comme dans Dictionary&lt;TKey, TValue&gt;, à moins qu'un seul 'T' ne soit suffisamment explicite, comme dans Collection&lt;T&gt;. Utilisez la casse Pascal pour les noms des interfaces et des paramètres de type. Utilisez les abréviations avec modération. N'employez pas le trait de soulignement. Utilisez des noms semblables lorsque vous définissez une paire classe/interface où la classe est une implémentation standard de l'interface. Les noms doivent uniquement différer par le préfixe composé de la lettre I dans le nom d'interface, comme avec Component et IComponent.</Description>
+   <Resolution Name="Interface">Préfixez le nom d'interface {0} avec la lettre 'I'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182243.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014">
+   <Name>Marquer les assemblys avec CLSCompliantAttribute</Name>
+   <Description>Les assemblys doivent indiquer explicitement leur conformité CLS à l'aide de l'attribut CLSCompliant. Un assembly ne possédant pas cet attribut n'est pas conforme CLS. Les assemblys, les modules et les types peuvent être conformes CLS même si des parties de l'assembly, du module ou du type ne sont pas conformes CLS. Les règles suivantes s'appliquent : 1) Si l'élément est marqué CLSCompliant, les membres non conformes doivent posséder l'attribut CLSCompliant avec son argument défini à false. 2) Un autre membre conforme CLS comparable doit être fourni pour chaque membre non conforme CLS.</Description>
+   <Resolution Name="Default">Marquer {0} avec CLSCompliant(true) car il expose les types visibles de l'extérieur.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182156.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkAttributesWithAttributeUsage" Category="Microsoft.Design" CheckId="CA1018">
+   <Name>Marquer les attributs avec AttributeUsageAttribute</Name>
+   <Description>L'attribut AttributeUsage spécifie les cibles qui sont valides pour l'attribut (voir System.AttributeTargets), indique si un attribut peut apparaître plusieurs fois sur une cible, et si l'attribut peut être hérité.</Description>
+   <Resolution Name="Default">Spécifiez AttributeUsage sur {0}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182158.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error, Warning</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
+   <Name>Marquez les membres comme static</Name>
+   <Description>Les méthodes qui n'accèdent pas aux données d'instance ou appellent des méthodes d'instance peuvent être marquées comme static (Shared dans VB). Ceci fait, le compilateur émet des sites d'appel non virtuels vers ces membres afin d'empêcher toute vérification au moment de l'exécution pour chaque appel garantissant que le pointeur d'objet actuel n'est pas null. Cette opération peut se traduire par des gains de performances pour le code dépendant des performances. Dans certains cas, l'impossibilité d'accéder à l'instance d'objet actuelle pose un problème d'exactitude.</Description>
+   <Resolution Name="Default">Le paramètre 'this' (ou 'Me' dans VB) de {0} n'est jamais utilisé. Marquez le membre comme static (ou Shared dans VB) ou utilisez 'this'/'Me' dans le corps de la méthode ou au moins un accesseur de propriété, si nécessaire.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms245046.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="Ne pas passer de littéraux en paramètres localisés" Category="Microsoft.Globalization" CheckId="CA1303">
+   <Name>Ne pas passer de littéraux en paramètres localisés</Name>
+   <Description>Les chaînes littérales intégrées au code source sont difficiles à localiser. Évitez de passer des chaînes littérales en arguments dans des cas où une chaîne localisée est généralement attendue.</Description>
+   <Resolution Name="KnownValue">La méthode {0} passe une chaîne littérale en paramètre '{1}' d'un appel à {2}. Extrayez à la place la ou les chaînes suivantes d'une table de ressources : {3}.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182187.aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="PassSystemUriObjectsInsteadOfStrings" Category="Microsoft.Usage" CheckId="CA2234">
+   <Name>Passez des objets System.Uri à la place de chaînes</Name>
+   <Description>S'il existe deux surcharges, l'une ciblant System.Uri et l'autre System.String, le code de la bibliothèque ne doit jamais appeler la surcharge de type chaîne.</Description>
+   <Resolution Name="Default">Modifiez {0} pour qu'il appelle {1} à la place de {2}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182360.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721">
+   <Name>Les noms des propriétés ne doivent pas être identiques à ceux des méthodes Get</Name>
+   <Description>Une méthode Get portant le même nom qu'une propriété a été trouvée. Les méthodes et propriétés Get doivent porter des noms distinguant clairement leur fonction. Reportez-vous aux règles de conception pour obtenir des informations sur le choix des propriétés plutôt que des méthodes.</Description>
+   <Resolution Name="BaseType">Le nom de propriété {0} porte à confusion en raison de l'existence de la méthode héritée {1}. Renommez ou supprimez cette propriété.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182253.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
+   <Name>Passez en revue les paramètres inutilisés</Name>
+   <Description>Passez en revue dans les méthodes non virtuelles les paramètres qui ne sont pas utilisés dans le corps de la méthode pour vous assurer que rien n'empêche d'y accéder. Les paramètres inutilisés impliquent des coûts d'entretien et de performance. Dans certains cas, une violation de cette règle peut désigner un problème d'implémentation dans la méthode (ce qui signifie que le paramètre aurait du être utilisé dans le corps de la méthode). Ignorez les avertissements liés à cette règle si le paramètre doit être présent pour des raisons de compatibilité descendante.</Description>
+   <Resolution Name="Default">Le paramètre {0} de {1} n'est jamais utilisé. Supprimez-le ou utilisez-le dans le corps de la méthode.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182268.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+   <Name>Spécifier IFormatProvider</Name>
+   <Description>S'il existe une surcharge qui accepte un argument IFormatProvider, elle doit être systématiquement appelée au profit d'une surcharge qui n'accepte pas cet argument. Certaines méthodes dans le Common Language Runtime convertissent une valeur vers ou depuis une représentation sous forme de chaîne et acceptent un paramètre de chaîne qui contient un ou plusieurs caractères (appelés spécificateurs de format), lesquels indiquent comment la valeur doit être convertie. Si la signification du spécificateur de format varie en fonction de la culture, un objet de mise en forme fournit les caractères réels utilisés dans la représentation sous forme de chaîne. Dans les scénarios où le comportement de tri et de comparaison ne doit jamais changer entre les cultures, spécifiez CultureInfo.InvariantCulture ; sinon, spécifiez CultureInfo.CurrentCulture.</Description>
+   <Resolution Name="IFormatProviderAlternateString">Le comportement de {0} pouvant varier en fonction des paramètres régionaux de l'utilisateur actuel, remplacez cet appel dans {1} par un appel à {2}. Si le résultat de {2} s'affiche au niveau de l'utilisateur, spécifiez {3} comme paramètre 'IFormatProvider'. Sinon, si le résultat est stocké et consulté par le logiciel, comme lorsqu'il est enregistré sur disque ou dans une base de données, spécifiez {4}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182190.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="globalizationrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054">
+   <Name>Les paramètres Uri ne doivent pas être des chaînes</Name>
+   <Description>Si un nom de paramètre contient "uri", "url" ou "urn" et son type est String, le type du paramètre doit être changé en System.Uri, sauf s'il existe une méthode de surcharge où le même paramètre a le type System.Uri.</Description>
+   <Resolution Name="Default">Changez le type du paramètre {0} de la méthode {1} de string à System.Uri, ou fournissez une surcharge de {1}, qui autorise la transmission de {0} en tant qu'objet System.Uri.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182174.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="60">Error</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024">
+   <Name>Utiliser les propriétés lorsque cela est approprié</Name>
+   <Description>Des propriétés doivent être utilisées à la place des méthodes Get/Set dans la plupart des situations. Les méthodes sont préférables aux propriétés dans les situations suivantes : l'opération est une conversion, est coûteuse ou génère un effet secondaire visible ; l'ordre d'exécution est important ; l'appel du membre deux fois de suite crée des résultats différents ; un membre est statique mais retourne une valeur mutable ; ou le membre retourne un tableau.</Description>
+   <Resolution Name="Default">Changez {0} en propriété si besoin est.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182181.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Catégorie</String>
+  <String Key="Certainty">Certitude</String>
+  <String Key="CollapseAll">Réduire tout</String>
+  <String Key="CheckId">ID de contrôle</String>
+  <String Key="Error">Erreur</String>
+  <String Key="Errors">erreur(s)</String>
+  <String Key="ExpandAll">Développer tout</String>
+  <String Key="Help">Aide</String>
+  <String Key="Line">Ligne</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Emplacement non stocké dans le fichier Pdb]</String>
+  <String Key="Project">Projet</String>
+  <String Key="Resolution">Résolution</String>
+  <String Key="Rule">Règle</String>
+  <String Key="RuleFile">Fichier de règles</String>
+  <String Key="RuleDescription">Description de la règle</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">État</String>
+  <String Key="Target">Cible</String>
+  <String Key="Warning">Avertissement</String>
+  <String Key="Warnings">avertissement(s)</String>
+  <String Key="ReportTitle">Rapport d'analyse du code</String>
+ </Localized>
+</FxCopReport>
