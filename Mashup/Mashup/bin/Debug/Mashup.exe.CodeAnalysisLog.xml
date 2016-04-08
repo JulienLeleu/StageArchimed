@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 14.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="14.0">
+ <Targets>
+  <Target Name="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\bin\Debug\Mashup.exe">
+   <Modules>
+    <Module Name="mashup.exe">
+     <Messages>
+      <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+       <Issue Certainty="95" Level="Error">Marquer 'Mashup.exe' avec CLSCompliant(true) car il expose les types visibles de l'extérieur.</Issue>
+      </Message>
+     </Messages>
+     <Namespaces>
+      <Namespace Name="Mashup.Provider">
+       <Types>
+        <Type Name="AbstractProvider" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#DeserializeJSon`1(System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Supprimer les objets avant la mise hors de portée" Category="Microsoft.Reliability" CheckId="CA2000" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="DependsOnFix">
+             <Issue Name="ExceptionEdge" Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider" File="AbstractProvider.cs" Line="56">Dans la méthode 'AbstractProvider.DeserializeJSon&lt;T&gt;(string)', l'objet 'stream' n'a pas été supprimé dans tous les chemins d'accès d'exception. Appelez System.IDisposable.Dispose sur l'objet 'stream' avant que toutes les références s'y rapportant ne soient hors de portée.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getObjectData`1(System.String,Mashup.Provider.Identifier)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="ExcludedInSource" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning">'AbstractProvider.getObjectData&lt;T&gt;(string, Identifier)' semble ne disposer d'aucun appelant public ou protégé en amont.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Mashup.Provider.Service.Deezer">
+       <Types>
+        <Type Name="DeezerAlbumProvider" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#requestBuilder(System.String,Mashup.Provider.Identifier)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer" File="DeezerAlbumProvider.cs" Line="16">Le comportement de 'string.Format(string, object, object)' pouvant varier en fonction des paramètres régionaux de l'utilisateur actuel, remplacez cet appel dans 'DeezerAlbumProvider.requestBuilder(string, Identifier)' par un appel à 'string.Format(IFormatProvider, string, params object[])'. Si le résultat de 'string.Format(IFormatProvider, string, params object[])' s'affiche au niveau de l'utilisateur, spécifiez 'CultureInfo.CurrentCulture' comme paramètre 'IFormatProvider'. Sinon, si le résultat est stocké et consulté par le logiciel, comme lorsqu'il est enregistré sur disque ou dans une base de données, spécifiez 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="DeezerArtistProvider" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#requestBuilder(System.String,Mashup.Provider.Identifier)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer" File="DeezerArtistProvider.cs" Line="16">Le comportement de 'string.Format(string, object, object)' pouvant varier en fonction des paramètres régionaux de l'utilisateur actuel, remplacez cet appel dans 'DeezerArtistProvider.requestBuilder(string, Identifier)' par un appel à 'string.Format(IFormatProvider, string, params object[])'. Si le résultat de 'string.Format(IFormatProvider, string, params object[])' s'affiche au niveau de l'utilisateur, spécifiez 'CultureInfo.CurrentCulture' comme paramètre 'IFormatProvider'. Sinon, si le résultat est stocké et consulté par le logiciel, comme lorsqu'il est enregistré sur disque ou dans une base de données, spécifiez 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Mashup.Provider.Service.Deezer.Model">
+       <Types>
+        <Type Name="Artist" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Type" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="Breaking">
+             <Issue Name="BaseType" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer\Model" File="DeezerAlbum.cs" Line="94">Le nom de propriété 'Artist.Type' porte à confusion en raison de l'existence de la méthode héritée 'object.GetType()'. Renommez ou supprimez cette propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Contributor" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Type" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="Breaking">
+             <Issue Name="BaseType" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer\Model" File="DeezerAlbum.cs" Line="63">Le nom de propriété 'Contributor.Type' porte à confusion en raison de l'existence de la méthode héritée 'object.GetType()'. Renommez ou supprimez cette propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="DataGenre" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Type" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="Breaking">
+             <Issue Name="BaseType" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer\Model" File="DeezerAlbum.cs" Line="19">Le nom de propriété 'DataGenre.Type' porte à confusion en raison de l'existence de la méthode héritée 'object.GetType()'. Renommez ou supprimez cette propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Datum" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Type" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="Breaking">
+             <Issue Name="BaseType" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer\Model" File="DeezerAlbum.cs" Line="134">Le nom de propriété 'Datum.Type' porte à confusion en raison de l'existence de la méthode héritée 'object.GetType()'. Renommez ou supprimez cette propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="DeezerAlbum" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Contributors" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer\Model" File="DeezerAlbum.cs" Line="211">Modifiez 'DeezerAlbum.Contributors' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#NbTracks" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Nb" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer\Model" File="DeezerAlbum.cs" Line="184">Corrigez la casse de 'Nb' dans le nom de membre 'DeezerAlbum.NbTracks' et changez-la en 'NB'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Type" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="Breaking">
+             <Issue Name="BaseType" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer\Model" File="DeezerAlbum.cs" Line="217">Le nom de propriété 'DeezerAlbum.Type' porte à confusion en raison de l'existence de la méthode héritée 'object.GetType()'. Renommez ou supprimez cette propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="DeezerArtist" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Messages>
+          <Message TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+           <Issue Certainty="75" Level="Warning">'DeezerArtist' est une classe qui n'est visiblement jamais instanciée. Si tel est le cas, supprimez le code de l'assembly. Si cette classe est destinée à contenir uniquement des méthodes statiques, ajoutez (si possible) un constructeur privé pour empêcher le compilateur de générer un constructeur par défaut.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="Genres" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Data" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer\Model" File="DeezerAlbum.cs" Line="26">Modifiez 'Genres.Data' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Tracks" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Data" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\Deezer\Model" File="DeezerAlbum.cs" Line="141">Modifiez 'Tracks.Data' et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Mashup.Provider.Service.LastFM">
+       <Types>
+        <Type Name="LastFMAlbumProvider" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#requestBuilder(System.String,Mashup.Provider.Identifier)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.String.Format(System.String,System.Object[])" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\LastFM" File="LastFMAlbumProvider.cs" Line="16">Le comportement de 'string.Format(string, params object[])' pouvant varier en fonction des paramètres régionaux de l'utilisateur actuel, remplacez cet appel dans 'LastFMAlbumProvider.requestBuilder(string, Identifier)' par un appel à 'string.Format(IFormatProvider, string, params object[])'. Si le résultat de 'string.Format(IFormatProvider, string, params object[])' s'affiche au niveau de l'utilisateur, spécifiez 'CultureInfo.CurrentCulture' comme paramètre 'IFormatProvider'. Sinon, si le résultat est stocké et consulté par le logiciel, comme lorsqu'il est enregistré sur disque ou dans une base de données, spécifiez 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="LastFMArtistProvider" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#requestBuilder(System.String,Mashup.Provider.Identifier)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.String.Format(System.String,System.Object[])" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\Provider\Service\LastFM" File="LastFMArtistProvider.cs" Line="16">Le comportement de 'string.Format(string, params object[])' pouvant varier en fonction des paramètres régionaux de l'utilisateur actuel, remplacez cet appel dans 'LastFMArtistProvider.requestBuilder(string, Identifier)' par un appel à 'string.Format(IFormatProvider, string, params object[])'. Si le résultat de 'string.Format(IFormatProvider, string, params object[])' s'affiche au niveau de l'utilisateur, spécifiez 'CultureInfo.CurrentCulture' comme paramètre 'IFormatProvider'. Sinon, si le résultat est stocké et consulté par le logiciel, comme lorsqu'il est enregistré sur disque ou dans une base de données, spécifiez 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="LastFMFactory" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Messages>
+          <Message TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+           <Issue Certainty="75" Level="Warning">'LastFMFactory' est une classe qui n'est visiblement jamais instanciée. Si tel est le cas, supprimez le code de l'assembly. Si cette classe est destinée à contenir uniquement des méthodes statiques, ajoutez (si possible) un constructeur privé pour empêcher le compilateur de générer un constructeur par défaut.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Mashup.Provider.Service.LastFM.Model">
+       <Types>
+        <Type Name="LastFMAlbum" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Messages>
+          <Message TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+           <Issue Certainty="75" Level="Warning">'LastFMAlbum' est une classe qui n'est visiblement jamais instanciée. Si tel est le cas, supprimez le code de l'assembly. Si cette classe est destinée à contenir uniquement des méthodes statiques, ajoutez (si possible) un constructeur privé pour empêcher le compilateur de générer un constructeur par défaut.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="LastFMArtist" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Messages>
+          <Message TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812" Status="Active" Created="2016-04-08 08:27:04Z" FixCategory="NonBreaking">
+           <Issue Certainty="75" Level="Warning">'LastFMArtist' est une classe qui n'est visiblement jamais instanciée. Si tel est le cas, supprimez le code de l'assembly. Si cette classe est destinée à contenir uniquement des méthodes statiques, ajoutez (si possible) un constructeur privé pour empêcher le compilateur de générer un constructeur par défaut.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
+   <Name>Évitez le recours à du code privé non appelé</Name>
+   <Description>Il existe du code non appelé qui n'est pas visible de l'extérieur et ne constitue pas un point d'entrée connu du runtime. Si cette violation provoque une erreur, signalez le problème à l'équipe Visual Studio Code Analysis.</Description>
+   <Resolution Name="Default">{0} semble ne disposer d'aucun appelant public ou protégé en amont.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182264.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812">
+   <Name>Évitez les classes internes non instanciées</Name>
+   <Description>Une classe interne n'ayant visiblement jamais été instanciée a été détectée. Cette règle n'a pas pour but de détecter des créations à liaison tardive et produit des faux positifs si les instances d'un type sont uniquement créées de cette manière (par exemple, par le biais de Activator.CreateInstance ou en passant le type comme argument à un constructeur TypeConverter).</Description>
+   <Resolution Name="Default">{0} est une classe qui n'est visiblement jamais instanciée. Si tel est le cas, supprimez le code de l'assembly. Si cette classe est destinée à contenir uniquement des méthodes statiques, ajoutez (si possible) un constructeur privé pour empêcher le compilateur de générer un constructeur par défaut.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182265.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227">
+   <Name>Les propriétés de collection doivent être en lecture seule</Name>
+   <Description>Les propriétés qui retournent des collections doivent être en lecture seule afin que les utilisateurs ne puissent pas entièrement remplacer le magasin de stockage. Les utilisateurs peuvent toujours modifier le contenu de la collection en appelant des méthodes appropriées dans la collection même. Notez que la classe XmlSerializer bénéficie d'une prise en charge spéciale pour la désérialisation des collections en lecture seule. Pour plus d'informations, consultez la présentation de XmlSerializer.</Description>
+   <Resolution Name="Default">Modifiez {0} et redéfinissez-le en lecture seule en supprimant la méthode Setter de propriété.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182327.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
+   <Name>La casse des identificateurs doit être correcte</Name>
+   <Description>Les identificateurs de type, d'espace de noms et de membre utilisent la casse Pascal. Les identificateurs de paramètre utilisent une casse mixte. Les acronymes à deux lettres au sein de ces identificateurs doivent apparaître en majuscules. Par exemple, utilisez System.IO à la place de System.Io. Les acronymes de trois lettres ou plus ne doivent pas utiliser la casse Pascal. Par exemple, utilisez System.Xml à la place de System.XML. Dans la casse Pascal, la première lettre de chaque mot est en majuscule (par exemple, BackColor). Dans la casse mixte, la première lettre du premier mot est en minuscules et la première lettre de tous les mots suivants, en majuscule (par exemple, backgroundColor). Bien qu'il soit courant que certains acronymes à deux lettres n'apparaissent pas entièrement en majuscules, ils ne devraient pour autant pas être exclus pour cette raison. Par exemple, 'DbConnection' est courant mais incorrect ; utilisez DBConnection à la place. Il peut s'avérer nécessaire d'enfreindre cette règle pour des raisons de compatibilité avec un jeu de symboles non managé existant. Néanmoins, en règle générale, ces symboles ne doivent pas être visibles en dehors de l'assembly qui les utilise.</Description>
+   <Resolution Name="Member">Corrigez la casse de '{0}' dans le nom de membre {1} et changez-la en '{2}'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182240.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="85">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014">
+   <Name>Marquer les assemblys avec CLSCompliantAttribute</Name>
+   <Description>Les assemblys doivent indiquer explicitement leur conformité CLS à l'aide de l'attribut CLSCompliant. Un assembly ne possédant pas cet attribut n'est pas conforme CLS. Les assemblys, les modules et les types peuvent être conformes CLS même si des parties de l'assembly, du module ou du type ne sont pas conformes CLS. Les règles suivantes s'appliquent : 1) Si l'élément est marqué CLSCompliant, les membres non conformes doivent posséder l'attribut CLSCompliant avec son argument défini à false. 2) Un autre membre conforme CLS comparable doit être fourni pour chaque membre non conforme CLS.</Description>
+   <Resolution Name="Default">Marquer {0} avec CLSCompliant(true) car il expose les types visibles de l'extérieur.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182156.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721">
+   <Name>Les noms des propriétés ne doivent pas être identiques à ceux des méthodes Get</Name>
+   <Description>Une méthode Get portant le même nom qu'une propriété a été trouvée. Les méthodes et propriétés Get doivent porter des noms distinguant clairement leur fonction. Reportez-vous aux règles de conception pour obtenir des informations sur le choix des propriétés plutôt que des méthodes.</Description>
+   <Resolution Name="BaseType">Le nom de propriété {0} porte à confusion en raison de l'existence de la méthode héritée {1}. Renommez ou supprimez cette propriété.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182253.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+   <Name>Spécifier IFormatProvider</Name>
+   <Description>S'il existe une surcharge qui accepte un argument IFormatProvider, elle doit être systématiquement appelée au profit d'une surcharge qui n'accepte pas cet argument. Certaines méthodes dans le Common Language Runtime convertissent une valeur vers ou depuis une représentation sous forme de chaîne et acceptent un paramètre de chaîne qui contient un ou plusieurs caractères (appelés spécificateurs de format), lesquels indiquent comment la valeur doit être convertie. Si la signification du spécificateur de format varie en fonction de la culture, un objet de mise en forme fournit les caractères réels utilisés dans la représentation sous forme de chaîne. Dans les scénarios où le comportement de tri et de comparaison ne doit jamais changer entre les cultures, spécifiez CultureInfo.InvariantCulture ; sinon, spécifiez CultureInfo.CurrentCulture.</Description>
+   <Resolution Name="IFormatProviderAlternateString">Le comportement de {0} pouvant varier en fonction des paramètres régionaux de l'utilisateur actuel, remplacez cet appel dans {1} par un appel à {2}. Si le résultat de {2} s'affiche au niveau de l'utilisateur, spécifiez {3} comme paramètre 'IFormatProvider'. Sinon, si le résultat est stocké et consulté par le logiciel, comme lorsqu'il est enregistré sur disque ou dans une base de données, spécifiez {4}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182190.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="globalizationrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="Supprimer les objets avant la mise hors de portée" Category="Microsoft.Reliability" CheckId="CA2000">
+   <Name>Supprimer les objets avant la mise hors de portée</Name>
+   <Description>Si un objet supprimable n'est pas supprimé explicitement avant que toutes les références s'y rapportant ne soient hors de portée, cet objet sera supprimé à un moment indéterminé lorsque le Garbage Collector exécutera le finaliseur sur l'objet. Il est préférable que l'objet soit supprimé explicitement, car un événement exceptionnel peut se produire, empêchant l'exécution du finaliseur de l'objet.</Description>
+   <Resolution Name="ExceptionEdge">Dans la méthode {0}, l'objet {1} n'a pas été supprimé dans tous les chemins d'accès d'exception. Appelez System.IDisposable.Dispose sur l'objet {1} avant que toutes les références s'y rapportant ne soient hors de portée.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182289.aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="14.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Catégorie</String>
+  <String Key="Certainty">Certitude</String>
+  <String Key="CollapseAll">Réduire tout</String>
+  <String Key="CheckId">ID de contrôle</String>
+  <String Key="Error">Erreur</String>
+  <String Key="Errors">erreur(s)</String>
+  <String Key="ExpandAll">Développer tout</String>
+  <String Key="Help">Aide</String>
+  <String Key="Line">Ligne</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Emplacement non stocké dans le fichier Pdb]</String>
+  <String Key="Project">Projet</String>
+  <String Key="Resolution">Résolution</String>
+  <String Key="Rule">Règle</String>
+  <String Key="RuleFile">Fichier de règles</String>
+  <String Key="RuleDescription">Description de la règle</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">État</String>
+  <String Key="Target">Cible</String>
+  <String Key="Warning">Avertissement</String>
+  <String Key="Warnings">avertissement(s)</String>
+  <String Key="ReportTitle">Rapport d'analyse du code</String>
+ </Localized>
+</FxCopReport>
