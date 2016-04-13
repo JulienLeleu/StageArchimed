@@ -4,7 +4,5 @@ C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\bin\Debug\Mas
 C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\obj\Debug\Mashup.exe
 C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\obj\Debug\Mashup.pdb
 C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\obj\Debug\Mashup.csprojResolveAssemblyReference.cache
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\bin\Debug\MashupApi.dll
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\bin\Debug\MashupApi.pdb
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\bin\Debug\Mashup.exe.CodeAnalysisLog.xml
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\bin\Debug\Mashup.exe.lastcodeanalysissucceeded
+C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\bin\Debug\Newtonsoft.Json.dll
+C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\Mashup\bin\Debug\Newtonsoft.Json.xml

@@ -1,9 +1,17 @@
-﻿using System.Reflection;
+﻿//-----------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="Archimed">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-// Les informations générales relatives à un assembly dépendent de
-// l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
-// associées à un assembly.
+[assembly: CLSCompliant(true)]
+
+//// Les informations générales relatives à un assembly dépendent de
+//// l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
+//// associées à un assembly.
 [assembly: AssemblyTitle("Mashup")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
