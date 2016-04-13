@@ -1,32 +1,12 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="LastFMFactory.cs" company="Archimed">
-//     Company copyright tag.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace Mashup.Provider.Service.LastFM
+﻿namespace Mashup.Provider.Service.LastFM
 {
-    using Mashup.Provider.Entity;
-    using Util;
-
-    /// <summary>
-    /// Class who implements <see cref="IFactory"/> and provide instances of <see cref="LastFMProvider"/> 
-    /// </summary>
-    internal class LastFMFactory : IFactory
+    internal class LastFMFactory : AbstractFactory<LastFMProvider>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LastFMFactory"/> class.
-        /// </summary>
         public LastFMFactory()
         {
         }
 
-        /// <summary>
-        /// Gets a <see cref="LastFMProvider"/> from a type of category
-        /// </summary>
-        /// <param name="category">The kind of category</param>
-        /// <returns>The new instance</returns>
-        public IProvider GetProvider(Category category)
+        public LastFMProvider getProvider(Category category)
         {
             switch (category)
             {

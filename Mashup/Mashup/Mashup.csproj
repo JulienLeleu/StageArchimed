@@ -40,10 +40,6 @@
     <AssemblyOriginatorKeyFile>Mashup.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -57,15 +53,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Provider\Entity\ResultSetObject.cs" />
-    <Compile Include="Provider\Entity\SendObject.cs" />
-    <Compile Include="Provider\Exception\IdentifierUnknownException.cs" />
-    <Compile Include="Provider\Exception\IdentifierUnsupportedException.cs" />
-    <Compile Include="Provider\Util\IFactory.cs" />
-    <Compile Include="Provider\Util\AbstractProvider.cs" />
-    <Compile Include="Provider\Entity\Category.cs" />
-    <Compile Include="Provider\Util\IProvider.cs" />
-    <Compile Include="Provider\ProviderManager.cs" />
+    <Compile Include="Provider\AbstractFactory.cs" />
+    <Compile Include="Provider\AbstractProvider.cs" />
+    <Compile Include="Provider\Category.cs" />
     <Compile Include="Provider\Service\Deezer\DeezerAlbumProvider.cs" />
     <Compile Include="Provider\Service\Deezer\DeezerArtistProvider.cs" />
     <Compile Include="Provider\Service\Deezer\DeezerProvider.cs" />
@@ -76,16 +66,23 @@
     <Compile Include="Provider\Service\LastFM\LastFMArtistProvider.cs" />
     <Compile Include="Provider\Service\LastFM\LastFMFactory.cs" />
     <Compile Include="Provider\Service\LastFM\LastFMProvider.cs" />
-    <Compile Include="Provider\Entity\Identifier.cs" />
+    <Compile Include="Provider\Identifier.cs" />
     <Compile Include="Provider\Service\LastFM\Model\LastFMAlbum.cs" />
     <Compile Include="Provider\Service\LastFM\Model\LastFMArtist.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Mashup.snk" />
-    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Factory\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MashupApi\MashupApi.csproj">
+      <Project>{51594f8c-17e6-4120-a6d4-b9da323076ff}</Project>
+      <Name>MashupApi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
