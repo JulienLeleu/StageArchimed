@@ -8,7 +8,7 @@ namespace Mashup.Provider.Entity
     /// <summary>
     /// Types of information sought
     /// </summary>
-    public enum Category
+    internal enum Category
     {
         /// <summary>
         /// Represents a Music Album

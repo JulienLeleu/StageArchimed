@@ -7,6 +7,7 @@
 namespace Mashup.Provider.Util
 {
     using Mashup.Provider.Entity;
+
     /// <summary>
     /// Interface that each factory have to implements
     /// </summary>

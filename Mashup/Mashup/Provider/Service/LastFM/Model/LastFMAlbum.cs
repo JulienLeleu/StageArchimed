@@ -81,7 +81,7 @@ namespace Mashup.Provider.Service.LastFM.Model.Album
     {
 
         [DataMember(Name = "track")]
-        public IList<Track> Track { get; }
+        public IList<Track> Track { get; set; }
     }
 
     [DataContract]
@@ -100,7 +100,7 @@ namespace Mashup.Provider.Service.LastFM.Model.Album
     {
 
         [DataMember(Name = "tag")]
-        public IList<Tag> Tag { get; }
+        public IList<Tag> Tag { get; set; }
     }
 
     [DataContract]
@@ -155,8 +155,8 @@ namespace Mashup.Provider.Service.LastFM.Model.Album
     [DataContract]
     public class LastFMAlbum
     {
-
         [DataMember(Name = "album")]
         public Album Album { get; set; }
+
     }
 }

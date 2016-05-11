@@ -1,20 +1,49 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IFactory.cs" company="Archimed">
+// <copyright file="IdentifierUnknownException.cs" company="Archimed">
 //     Company copyright tag.
 // </copyright>
 //-----------------------------------------------------------------------
-using System;
-using System.Runtime.Serialization;
-
 namespace Mashup.Provider.Exception
 {
+    using System;
+    using System.Runtime.Serialization;
+
+    /// <summary>
+    /// This exception occurred when an identifier is unknown by the provider manager
+    /// </summary>
     [Serializable]
-    public class IdentifierUnknownException : System.Exception
+    public class IdentifierUnknownException : Exception
     {
-        public IdentifierUnknownException() : base() { }
-        public IdentifierUnknownException(string message) : base(message) { }
-        public IdentifierUnknownException(string message, System.Exception inner) : base(message, inner) { }
-        protected IdentifierUnknownException(SerializationInfo info, StreamingContext context) : base(info,context)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IdentifierUnknownException"/> class
+        /// </summary>
+        public IdentifierUnknownException() : base()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IdentifierUnknownException"/> class
+        /// </summary>
+        /// <param name="message">The error message</param>
+        public IdentifierUnknownException(string message) : base(message)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IdentifierUnknownException"/> class
+        /// </summary>
+        /// <param name="message">The error message</param>
+        /// <param name="inner">The inner</param>
+        public IdentifierUnknownException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IdentifierUnknownException"/> class
+        /// </summary>
+        /// <param name="info">The info</param>
+        /// <param name="context">The context</param>
+        protected IdentifierUnknownException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

@@ -144,7 +144,7 @@ namespace Mashup.Provider.Service.Deezer.Model.Album
     public class Tracks
     {
         [DataMember(Name = "data")]
-        public IList<Datum> Data { get; }
+        public IList<Datum> Data { get; set; }
     }
 
     [DataContract]

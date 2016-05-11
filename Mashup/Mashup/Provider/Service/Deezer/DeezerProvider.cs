@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 namespace Mashup.Provider.Service.Deezer
 {
+    using Entity;
     using Mashup.Provider.Util;
 
     /// <summary>
@@ -16,7 +17,7 @@ namespace Mashup.Provider.Service.Deezer
         /// Initializes a new instance of the <see cref="DeezerProvider"/> class.
         /// </summary>
         /// <param name="url">The main $$(Deezer)$$ url</param>
-        public DeezerProvider(string url) : base(url, null)
+        public DeezerProvider() : base(Media.Music, "https://api.deezer.com/", null)
         {
         }
     }

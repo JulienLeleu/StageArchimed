@@ -9,12 +9,28 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mashup</RootNamespace>
     <AssemblyName>Mashup</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publier\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +39,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +52,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -39,14 +60,28 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Mashup.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Archimed.CrystalFramework.Core, Version=5.1.0.0, Culture=neutral, PublicKeyToken=bc4b8889965045c7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Archimed.CrystalFramework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Archimed\Syracuse\References\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,38 +90,81 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppManager.cs" />
+    <Compile Include="Cache\DatabaseManager.cs" />
+    <Compile Include="Cache\Entity\Status.cs" />
+    <Compile Include="Cache\Routine.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IO\JsonBuilder.cs" />
+    <Compile Include="IO\SearchObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Provider\Entity\ResultSetObject.cs" />
-    <Compile Include="Provider\Entity\SendObject.cs" />
+    <Compile Include="IO\ResultSetObject.cs" />
+    <Compile Include="IO\SendObject.cs" />
+    <Compile Include="Provider\Entity\Media.cs" />
+    <Compile Include="Provider\Exception\CultureUnknownException.cs" />
     <Compile Include="Provider\Exception\IdentifierUnknownException.cs" />
     <Compile Include="Provider\Exception\IdentifierUnsupportedException.cs" />
-    <Compile Include="Provider\Util\IFactory.cs" />
+    <Compile Include="Provider\ISearchService.cs" />
+    <Compile Include="Provider\SearchService.cs" />
+    <Compile Include="Provider\Service\Deezer\Model\DeezerSearch.cs" />
+    <Compile Include="Provider\Service\LastFM\Model\LastFMAlbumSearch.cs" />
+    <Compile Include="Provider\Service\LastFM\Model\LastFMArtistSearch.cs" />
+    <Compile Include="Provider\Service\Spotify\SpotifyAlbumProvider.cs" />
+    <Compile Include="Provider\Service\Spotify\Model\SpotifyAlbum.cs" />
+    <Compile Include="Provider\Service\Spotify\Model\SpotifyAlbumSearch.cs" />
+    <Compile Include="Provider\Service\Spotify\Model\SpotifyArtist.cs" />
+    <Compile Include="Provider\Service\Spotify\Model\SpotifyArtistSearch.cs" />
+    <Compile Include="Provider\Service\Spotify\SpotifyArtistProvider.cs" />
+    <Compile Include="Provider\Service\Spotify\SpotifyProvider.cs" />
     <Compile Include="Provider\Util\AbstractProvider.cs" />
-    <Compile Include="Provider\Entity\Category.cs" />
     <Compile Include="Provider\Util\IProvider.cs" />
     <Compile Include="Provider\ProviderManager.cs" />
     <Compile Include="Provider\Service\Deezer\DeezerAlbumProvider.cs" />
     <Compile Include="Provider\Service\Deezer\DeezerArtistProvider.cs" />
     <Compile Include="Provider\Service\Deezer\DeezerProvider.cs" />
     <Compile Include="Provider\Service\Deezer\Model\DeezerAlbum.cs" />
-    <Compile Include="Provider\Service\Deezer\DeezerFactory.cs" />
     <Compile Include="Provider\Service\Deezer\Model\DeezerArtist.cs" />
     <Compile Include="Provider\Service\LastFM\LastFMAlbumProvider.cs" />
     <Compile Include="Provider\Service\LastFM\LastFMArtistProvider.cs" />
-    <Compile Include="Provider\Service\LastFM\LastFMFactory.cs" />
     <Compile Include="Provider\Service\LastFM\LastFMProvider.cs" />
     <Compile Include="Provider\Entity\Identifier.cs" />
     <Compile Include="Provider\Service\LastFM\Model\LastFMAlbum.cs" />
     <Compile Include="Provider\Service\LastFM\Model\LastFMArtist.cs" />
+    <Compile Include="Tests\AbstractProviderTests.cs" />
+    <Compile Include="Tests\Model\Example.cs" />
+    <Compile Include="Tests\ProviderManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Mashup.snk" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 et x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"$(SolutionDir)Tools\gacutilv4.exe" /u "$(TargetName)"
+"$(SolutionDir)Tools\gacutilv4.exe" /i "$(TargetDir)$(TargetFileName)" /f</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

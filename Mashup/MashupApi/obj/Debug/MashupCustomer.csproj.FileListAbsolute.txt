@@ -1,9 +1,0 @@
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\MashupApi\bin\Debug\MashupApi.dll
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\MashupApi\bin\Debug\MashupApi.pdb
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\MashupApi\obj\Debug\MashupApi.dll
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\MashupApi\obj\Debug\MashupApi.pdb
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\MashupApi\bin\Debug\MashupApi.dll.CodeAnalysisLog.xml
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\MashupApi\bin\Debug\MashupApi.dll.lastcodeanalysissucceeded
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\MashupApi\bin\Debug\Mashup.exe
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\MashupApi\bin\Debug\Mashup.pdb
-C:\Users\leleu\Documents\Visual Studio 2015\Projects\Mashup\MashupApi\obj\Debug\MashupCustomer.csprojResolveAssemblyReference.cache

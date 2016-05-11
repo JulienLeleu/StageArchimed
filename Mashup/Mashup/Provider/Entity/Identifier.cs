@@ -8,13 +8,8 @@ namespace Mashup.Provider.Entity
     /// <summary>
     /// Types of Identifier for the request
     /// </summary>
-    public enum Identifier
+    internal enum Identifier
     {
-        /// <summary>
-        /// Represents an Album UPC
-        /// </summary>
-        Upc,
-
         /// <summary>
         /// Represents the European Article Numbering
         /// </summary>
@@ -33,6 +28,16 @@ namespace Mashup.Provider.Entity
         /// <summary>
         /// Represents the API specific identifier
         /// </summary>
-        Id
+        Id,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Author,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Title
     }
 }

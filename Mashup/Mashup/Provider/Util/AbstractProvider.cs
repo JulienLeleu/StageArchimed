@@ -5,19 +5,23 @@
 //-----------------------------------------------------------------------
 namespace Mashup.Provider.Util
 {
-    using System.IO;
+    using System;
+    using System.Globalization;
     using System.Net;
-    using System.Runtime.Serialization.Json;
     using System.Text;
     using System.Threading.Tasks;
     using Entity;
-    using System;
-
+    
     /// <summary>
     /// Abstract class of a provider as $$(Deezer)$$, $$(Spotify)$$ ...
     /// </summary>
     internal abstract class AbstractProvider : IProvider
     {
+        /// <summary>
+        /// The type of media
+        /// </summary>
+        private Media mediaType;
+
         /// <summary>
         /// API main URL
         /// </summary>
@@ -32,8 +36,9 @@ namespace Mashup.Provider.Util
         /// Initializes a new instance of the <see cref="AbstractProvider"/> class.
         /// </summary>
         /// <param name="url">The API main URL</param>
-        public AbstractProvider(string url)
+        internal AbstractProvider(Media media, string url)
         {
+            this.MediaType = media;
             this.Url = url;
             this.ApiKey = null;
         }
@@ -43,9 +48,25 @@ namespace Mashup.Provider.Util
         /// </summary>
         /// <param name="url">The API main URL</param>
         /// <param name="apiKey">The API key</param>
-        public AbstractProvider(string url, string apiKey) : this(url)
+        internal AbstractProvider(Media media, string url, string apiKey) : this(media, url)
         {
             this.ApiKey = apiKey;
+        }
+
+        /// <summary>
+        /// Gets or sets the type of media
+        /// </summary>
+        public Media MediaType
+        {
+            get
+            {
+                return mediaType;
+            }
+
+            set
+            {
+                mediaType = value;
+            }
         }
 
         /// <summary>
@@ -81,75 +102,45 @@ namespace Mashup.Provider.Util
         }
 
         /// <summary>
-        /// Deserialize data from JSON to C# object
-        /// </summary>
-        /// <typeparam name="T">The object returned</typeparam>
-        /// <param name="jsonString">The JSON data incoming</param>
-        /// <returns>The data object</returns>
-        public static T DeserializeJSon<T>(string jsonString)
-        {
-            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
-            T newObject = default(T);
-            MemoryStream stream = null;
-            try
-            {
-                stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonString));
-                newObject = (T)ser.ReadObject(stream);
-            }
-            catch (IOException e)
-            {
-                e.GetBaseException();
-            }
-            finally
-            {
-                stream.Dispose();
-            }
-
-            return newObject;
-        }
-
-        /// <summary>
         /// Build a request from an Identifier and its associated value. Use The API Key stored if you need it.
         /// </summary>
         /// <param name="id">The value</param>
         /// <param name="identifier">The identifier</param>
+        /// <param name="culture">The culture</param>
         /// <returns>The response server</returns>
-        public abstract string RequestBuilder(string id, Identifier identifier);
+        public abstract string RequestBuilder(string id, Identifier identifier, CultureInfo culture);
 
         /// <summary>
         /// Gets the raw data from a request, in which you have to provide an identifier and its value.
         /// </summary>
         /// <param name="id">The value</param>
         /// <param name="identifier">The identifier</param>
+        /// <param name="culture">The culture</param>
         /// <returns>The raw data returned by web services</returns>
-        public abstract Task<string> GetRawData(string id, Identifier identifier);
+        public abstract Task<string> GetRawData(string id, Identifier identifier, CultureInfo culture);
 
         /// <summary>
         /// Get the data as an object T from a request, in which you have to provide an identifier and its value. 
         /// </summary>
-        /// <typeparam name="T">Type of object returned</typeparam>
         /// <param name="id">The value</param>
         /// <param name="identifier">The identifier</param>
+        /// <param name="culture">The culture</param>
         /// <returns>The object data returned by web services</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Méthode jamais appelée, ne présente aucun danger")]
-        public async Task<T> GetObjectData<T>(string id, Identifier identifier)
-        {
-            string result = await this.GetRawData(id, identifier);
-            return DeserializeJSon<T>(result);
-        }
+        public abstract Task<object> GetObjectData(string id, Identifier identifier, CultureInfo culture);
 
         /// <summary>
         /// Send a request with an Identifier and its value then get the response
         /// </summary>
         /// <param name="id">The value</param>
         /// <param name="identifier">The identifier</param>
+        /// <param name="culture">The culture</param>
         /// <returns>The response</returns>
-        public async Task<string> SendRequest(string id, Identifier identifier)
+        public async Task<string> SendRequest(string id, Identifier identifier, CultureInfo culture)
         {
             var client = new WebClient() { Encoding = Encoding.UTF8 };
             try
             {
-                Uri url = new Uri(this.RequestBuilder(id, identifier));
+                Uri url = new Uri(this.RequestBuilder(id, identifier, culture));
                 return await client.DownloadStringTaskAsync(url.ToString());
             }
             catch (Exception e)
@@ -158,7 +149,10 @@ namespace Mashup.Provider.Util
                 Console.Error.WriteLine(e);
                 Console.ForegroundColor = ConsoleColor.White;
             }
+
             return null;
         }
+
+        public abstract object GetObjectData(string rawData);
     }
 }
