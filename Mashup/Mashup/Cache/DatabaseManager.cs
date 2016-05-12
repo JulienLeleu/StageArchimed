@@ -32,29 +32,24 @@
         /// </summary>
         /// <param name="searchObject">The search object</param>
         /// <returns>The resultset (null if not found)</returns>
-        public ResultSetObject Search(SearchObject searchObject)
+        public ResultSetObject Search(SendDBObject searchObject)
         {
             using (TransactionScope scope = new TransactionScope())
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                Tuple<int?, int?> data = getMediaId(searchObject);
+                int? idMedia = (data == null ? null : data.Item1);
+                int? status = (data == null ? null : data.Item2);
+                if (idMedia != null)
                 {
-                    con.Open();
-                    SqlTransaction transaction = con.BeginTransaction(System.Data.IsolationLevel.RepeatableRead);
-                    Tuple<int?, int?> data = getMediaId(con, transaction, searchObject);
-                    int? idMedia = (data == null ? null : data.Item1);
-                    int? status = (data == null ? null : data.Item2);
-                    if (idMedia != null)
+                    if (status == 1)
                     {
-                        if (status == 1)
-                        {
-                            return getMediaData(con, transaction, (int)idMedia);
-                        }
-                        return null;
+                        return getMediaData((int)idMedia);
                     }
-                    postMedia(con, transaction, searchObject);
-                    scope.Complete();
                     return null;
                 }
+                postMedia(searchObject);
+                scope.Complete();
+                return null;
             }
         }
 
@@ -63,30 +58,35 @@
         /// </summary>
         /// <param name="searchObject">The search object</param>
         /// <returns>The Id with Status</returns>
-        public Tuple<int?, int?> getMediaId(SqlConnection con, SqlTransaction trans, SearchObject searchObject)
+        public Tuple<int?, int?> getMediaId(SendDBObject searchObject)
         {
-            string query = @"SELECT TOP 1 Id, Status 
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                //SqlTransaction transaction = con.BeginTransaction(System.Data.IsolationLevel.RepeatableRead);
+                string query = @"SELECT TOP 1 Id, Status 
                             FROM dbo.mashup_media 
                             WHERE (@title IS NULL OR Title=@title) 
                             AND (@author IS NULL OR Author=@author) 
                             AND (@ean IS NULL OR Ean=@ean) 
                             AND (@language IS NULL OR Language=@language)";
-            SqlCommand cmd = new SqlCommand(query, con);
+                SqlCommand cmd = new SqlCommand(query, con);
 
-            cmd.Transaction = trans;
-            cmd.Prepare();
-            cmd.Parameters.AddWithValue("@title", (object)searchObject.Title ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@author", (object)searchObject.Author ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ean", (object)searchObject.Ean ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@language", (object)searchObject.Language ?? DBNull.Value);
+                //cmd.Transaction = transaction;
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@title", (object)searchObject.Title ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@author", (object)searchObject.Author ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ean", (object)searchObject.Ean ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@language", (object)searchObject.Language ?? DBNull.Value);
 
-            using (SqlDataReader rdr = cmd.ExecuteReader())
-            {
-                while (rdr.Read())
+                using (SqlDataReader rdr = cmd.ExecuteReader())
                 {
-                    return new Tuple<int?, int?>((int?)rdr["Id"], (int?)rdr["Status"]);
+                    while (rdr.Read())
+                    {
+                        return new Tuple<int?, int?>((int?)rdr["Id"], (int?)rdr["Status"]);
+                    }
+                    return null;
                 }
-                return null;
             }
         }
 
@@ -95,33 +95,37 @@
         /// </summary>
         /// <param name="id">The id</param>
         /// <returns>The result set</returns>
-        public ResultSetObject getMediaData(SqlConnection con, SqlTransaction trans, int id)
+        public ResultSetObject getMediaData(int id)
         {
-            string query = @"SELECT p.Name as Provider, d.Data, m.Author 
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                //SqlTransaction transaction = con.BeginTransaction(System.Data.IsolationLevel.RepeatableRead);
+                string query = @"SELECT p.Name as Provider, d.Data, m.Author 
                             FROM mashup_media as m 
                             INNER JOIN mashup_media_data as d ON m.Id = d.Id_media 
                             INNER JOIN mashup_provider as p ON d.Id_provider = p.Id 
                             WHERE m.Id=@Id ;";
-            SqlCommand cmd = new SqlCommand(query, con);
+                SqlCommand cmd = new SqlCommand(query, con);
 
-            cmd.Transaction = trans;
-            cmd.Prepare();
-            cmd.Parameters.AddWithValue("@Id", id);
+                //cmd.Transaction = transaction;
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@Id", id);
 
-            using (SqlDataReader rdr = cmd.ExecuteReader())
-            {
-                ProviderManager providerManager = ProviderManager.GetInstance();
-                Dictionary<string, object> results = new Dictionary<string, object>();
-                while (rdr.Read())
+                using (SqlDataReader rdr = cmd.ExecuteReader())
                 {
-                    IProvider provider = providerManager.GetProviderByName((string)rdr["Provider"]);
-                    if (provider != null)
+                    ProviderManager providerManager = ProviderManager.GetInstance();
+                    Dictionary<string, object> results = new Dictionary<string, object>();
+                    while (rdr.Read())
                     {
-                        Console.WriteLine((string)rdr["Author"]);
-                        results.Add((string)rdr["Provider"], provider.GetObjectData((string)rdr["Data"]));
+                        IProvider provider = providerManager.GetProviderByName((string)rdr["Provider"]);
+                        if (provider != null)
+                        {
+                            results.Add((string)rdr["Provider"], provider.DeserializeData((string)rdr["Data"]));
+                        }
                     }
+                    return new ResultSetObject(results);
                 }
-                return new ResultSetObject(results);
             }
         }
 
@@ -129,36 +133,25 @@
         /// Post in database a media 
         /// </summary>
         /// <param name="searchObject">The media</param>
-        public void postMedia(SqlConnection con, SqlTransaction trans, SearchObject searchObject)
+        public void postMedia(SendDBObject searchObject)
         {
-            try
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
+                con.Open();
                 string query = @"INSERT INTO dbo.mashup_media 
-                                (Title, Author, Ean, Language, Created_on, Updated_on, Status) 
+                                (Title, Author, Ean, Language, MediaType, Created_on, Updated_on, Status) 
                                 VALUES 
-                                (@title, @author, @ean, @language, GETDATE(), GETDATE(), @status)";
+                                (@title, @author, @ean, @language, @mediaType, GETDATE(), GETDATE(), @status)";
                 SqlCommand cmd = new SqlCommand(query, con);
 
-                cmd.Transaction = trans;
                 cmd.Prepare();
                 cmd.Parameters.AddWithValue("@title", (object)searchObject.Title ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@author", (object)searchObject.Author ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@ean", (object)searchObject.Ean ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@language", (object)searchObject.Language ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@mediaType", (object)searchObject.MediaType ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@status", (int)Status.Waiting);
                 cmd.ExecuteNonQuery();
-                trans.Commit();
-            } catch (Exception)
-            {
-                try
-                {
-                    trans.Rollback();
-                }
-                catch (SqlException)
-                {
-                    throw;
-                }
-                throw;
             }
         }
     }

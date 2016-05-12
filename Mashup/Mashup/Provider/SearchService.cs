@@ -14,6 +14,7 @@ namespace Mashup.Provider
     using Entity;
     using Mashup.IO;
     using Util;
+    using System.Linq;
 
     /// <summary>
     /// Search web service
@@ -34,7 +35,7 @@ namespace Mashup.Provider
 
             try
             {
-                Task<ResultSetObject> t = manager.SendAll(sender);
+                Task<ResultSetObject> t = manager.GetObjectsDatasFromProviders(sender);
                 t.Wait();
                 response.Result = t.Result;
             }
@@ -74,6 +75,23 @@ namespace Mashup.Provider
 
             response.Result = strProviders.ToArray();
             return response;
+        }
+
+        public InstanceServiceResponse<string[]> GetMediaTypes()
+        {
+            InstanceServiceResponse<string[]> response = new InstanceServiceResponse<string[]>();
+            response.Result = Enum.GetNames(typeof(Media)).ToArray();
+            return response;
+        }
+
+        public InstanceServiceResponse<Dictionary<string,string>> GetDict()
+        {
+            InstanceServiceResponse<Dictionary<string, string>> response = new InstanceServiceResponse<Dictionary<string, string>>();
+            Dictionary<string, string> test = new Dictionary<string, string>();
+            test.Add("test", "test");
+            test.Add("test2", "test2");
+            response.Result = test;
+            return response;   
         }
     }
 }

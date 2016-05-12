@@ -96,7 +96,7 @@
     <Compile Include="Cache\Routine.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IO\JsonBuilder.cs" />
-    <Compile Include="IO\SearchObject.cs" />
+    <Compile Include="IO\SendDBObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IO\ResultSetObject.cs" />

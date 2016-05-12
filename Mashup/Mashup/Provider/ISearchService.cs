@@ -9,7 +9,7 @@ namespace Mashup.Provider
     using System.ServiceModel.Web;
     using Archimed.ServiceModel.Web;
     using Mashup.IO;
-
+    using System.Collections.Generic;
     /// <summary>
     /// Interface of search web service
     /// </summary>
@@ -40,5 +40,13 @@ namespace Mashup.Provider
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         InstanceServiceResponse<string[]> GetProviders();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        InstanceServiceResponse<string[]> GetMediaTypes();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        InstanceServiceResponse<Dictionary<string, string>> GetDict();
     }
 }

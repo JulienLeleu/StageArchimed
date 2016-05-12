@@ -8,7 +8,7 @@ namespace Mashup.Provider.Entity
     /// <summary>
     /// Types of Identifier for the request
     /// </summary>
-    internal enum Identifier
+    public enum Identifier
     {
         /// <summary>
         /// Represents the European Article Numbering

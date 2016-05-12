@@ -7,7 +7,6 @@ namespace Mashup
 {
     using Cache;
     using IO;
-    using Provider;
     using System;
 
     /// <summary>
@@ -21,8 +20,11 @@ namespace Mashup
         private static void Main()
         {
             DatabaseManager web = new DatabaseManager();
-            SearchObject search = new SearchObject("Dangerous","David Guetta", null, "FR");
+            SendDBObject search = new SendDBObject("Music", "Stromae", "Racine Carré", null, "FR");
             Console.WriteLine(web.Search(search));
+
+            Routine r = new Routine();
+            r.process();
             Console.ReadKey();
         }
     }

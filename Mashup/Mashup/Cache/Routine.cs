@@ -1,95 +1,127 @@
 ﻿using Mashup.IO;
 using Mashup.Provider;
 using System;
-using System.Data;
 using System.Data.SqlClient;
-using System.Transactions;
 using Mashup.Cache.Entity;
+using System.Collections.Generic;
+using System.Linq;
+using Mashup.Provider.Util;
 
 namespace Mashup.Cache
 {
     class Routine
     {
-        private string connectionString;
+        private static Routine instance = null;
 
-        private int delay;
+        private string connectionString;
 
         public Routine()
         {
             connectionString = "Data Source=(local);Initial Catalog=STAGE;Integrated Security=SSPI;User ID=sa;Password=#botiq2016!";
-            delay = 10000;
+            initProviders();
         }
 
-        public void process()
+        public void initProviders()
         {
-            // While True :
-            //  Requête SQL : SELECT Title, Author, Ean, Language FROM mashup_media WHERE Status <> 1
-            //  Pour chaque ligne, on requête auprès du ProviderManager pour chaque information, 
-            //  On insert ou on update les données reçues dans la table mashup_media_data
-            //  Update la valeur de status
-            //  On Commit
-            // End While
-
-            // transaction useless ?
-            // traiter seulement une 100 aine de lignes à la fois
-            // Boucle toutes les n secondes
-            using (SqlConnection con = new SqlConnection(connectionString))
+            ProviderManager manager = ProviderManager.GetInstance();
+            foreach (IProvider provider in manager.GetProviders())
             {
-                con.Open();
-                string query = @"SELECT TOP 100 Id, Title, Author, Ean, Language FROM mashup_media WHERE Status <> 1";
-                SqlCommand cmd = new SqlCommand(query, con);
-
-                using (SqlDataReader rdr = cmd.ExecuteReader())
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    ProviderManager manager = ProviderManager.GetInstance();
-                    while (rdr.Read())
-                    {
-                        ResultSetObject res = new ResultSetObject();
-                        if (!rdr["Ean"].Equals(DBNull.Value))
-                        {
-                            res.Add(manager.SendAll(new SendObject("Ean", (string)rdr["Ean"])).Result.JsonDatas);
-                        }
-                        if (!rdr["Title"].Equals(DBNull.Value))
-                        {
-                            res.Add(manager.SendAll(new SendObject("Title", (string)rdr["Title"])).Result.JsonDatas);
-                        }
-                        if (!rdr["Author"].Equals(DBNull.Value))
-                        {
-                            res.Add(manager.SendAll(new SendObject("Author", (string)rdr["Author"])).Result.JsonDatas);
-                        }
-                        postMediaData(con, (int)rdr["Id"], res);
-                        updateMediaStatus(con, (int)rdr["Id"], Status.Success);
-                    }
+                    con.Open();
+                    string query = @"INSERT INTO mashup_provider (Name) SELECT @name WHERE NOT EXISTS (SELECT 1 FROM mashup_provider AS p WHERE Name = @name)";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Prepare();
+                    cmd.Parameters.AddWithValue("@name", provider.GetType().ToString());
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
 
-        private void postMediaData(SqlConnection con, int id_media, ResultSetObject res)
+        public static Routine GetInstance()
         {
-            string query = @"INSERT INTO mashup_media_data 
-                                (Id_media, Id_provider, data) 
-                                SELECT Id, '@idMedia', '@data' 
+            return instance ?? (instance = new Routine());
+        }
+
+        public void process()
+        {
+            Console.WriteLine("Processing ...");
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = @"SELECT TOP 100 Id, Title, Author, Ean, Language, MediaType 
+                                FROM mashup_media 
+                                WHERE Status=@status";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@status", (int)Status.Waiting);
+
+                using (SqlDataReader rdr = cmd.ExecuteReader())
+                {
+                    ProviderManager manager = ProviderManager.GetInstance();
+                    Dictionary<string, string> dictProviderData = new Dictionary<string, string>();
+                    // Données reçus dans Dictionary<int, Task<Dictionary<string, string>> avec Id et données reçues
+                    while (rdr.Read())
+                    {
+                        dictProviderData.Clear();
+
+                        if (!rdr["Ean"].Equals(DBNull.Value))
+                        {
+                            dictProviderData = dictProviderData.Concat(manager.GetRawsDatasFromProviders(new SendObject((string)rdr["MediaType"], "Ean", (string)rdr["Ean"], (string)rdr["Language"])).Result).ToDictionary(e => e.Key, e => e.Value);
+                            Console.WriteLine("Informations from Ean reiceved.");
+                        }
+                        else if (!rdr["Title"].Equals(DBNull.Value))
+                        {
+                            dictProviderData = dictProviderData.Concat(manager.GetRawsDatasFromProviders(new SendObject((string)rdr["MediaType"], "Title", (string)rdr["Title"], (string)rdr["Language"])).Result).ToDictionary(e => e.Key, e => e.Value);
+                            Console.WriteLine("Informations from Title reiceved.");
+                        }
+                        if (!rdr["Author"].Equals(DBNull.Value))
+                        {
+                            dictProviderData = dictProviderData.Concat(manager.GetRawsDatasFromProviders(new SendObject((string)rdr["MediaType"], "Author", (string)rdr["Author"], (string)rdr["Language"])).Result).ToDictionary(e => e.Key, e => e.Value);
+                            Console.WriteLine("Informations from Author reiceved.");
+                        }
+                        postMediaData((int)rdr["Id"], dictProviderData);
+                        updateMediaStatus((int)rdr["Id"], Status.Success);
+                    }
+                }
+            }
+            Console.WriteLine("Process done");
+        }
+
+        private void postMediaData(int id_media, Dictionary<string, string> dictProviderData)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = @"INSERT INTO mashup_media_data 
+                                (Id_media, Id_provider, Data) 
+                                SELECT @idMedia, Id, @data 
                                 FROM mashup_provider 
                                 WHERE Name=@provider";
-            SqlCommand cmd;
-            foreach (string provider in res.JsonDatas.Keys)
-            {
-                cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@idMedia", id_media);
-                cmd.Parameters.AddWithValue("@data", res.JsonDatas[provider]);
-                cmd.Parameters.AddWithValue("@provider", provider);
-                cmd.Prepare();
-                cmd.ExecuteNonQuery();
+                SqlCommand cmd;
+                foreach (string provider in dictProviderData.Keys)
+                {
+                    cmd = new SqlCommand(query, con);
+                    cmd.Prepare();
+                    cmd.Parameters.AddWithValue("@idMedia", id_media);
+                    cmd.Parameters.AddWithValue("@data", dictProviderData[provider]);
+                    cmd.Parameters.AddWithValue("@provider", provider);
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
-        private void updateMediaStatus(SqlConnection con, int id_media, Status status)
+        private void updateMediaStatus(int id_media, Status status)
         {
-            string query = @"UPDATE mashup_media SET Status=@status";
-            SqlCommand cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@status", (int)status);
-            cmd.Prepare();
-            cmd.ExecuteNonQuery();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = @"UPDATE mashup_media SET Status=@status";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@status", (int)status);
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

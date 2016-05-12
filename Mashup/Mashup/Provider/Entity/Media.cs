@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mashup.Provider.Entity
 {
-    internal enum Media
+    public enum Media
     {
         /// <summary>
         /// Represents a book

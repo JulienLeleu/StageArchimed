@@ -36,9 +36,9 @@ namespace Mashup.Provider.Util
         /// Initializes a new instance of the <see cref="AbstractProvider"/> class.
         /// </summary>
         /// <param name="url">The API main URL</param>
-        internal AbstractProvider(Media media, string url)
+        internal AbstractProvider(Media mediaType, string url)
         {
-            this.MediaType = media;
+            this.MediaType = mediaType;
             this.Url = url;
             this.ApiKey = null;
         }
@@ -48,7 +48,7 @@ namespace Mashup.Provider.Util
         /// </summary>
         /// <param name="url">The API main URL</param>
         /// <param name="apiKey">The API key</param>
-        internal AbstractProvider(Media media, string url, string apiKey) : this(media, url)
+        internal AbstractProvider(Media mediaType, string url, string apiKey) : this(mediaType, url)
         {
             this.ApiKey = apiKey;
         }
@@ -145,14 +145,14 @@ namespace Mashup.Provider.Util
             }
             catch (Exception e)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                /*Console.ForegroundColor = ConsoleColor.Red;
                 Console.Error.WriteLine(e);
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.White;*/
             }
 
             return null;
         }
 
-        public abstract object GetObjectData(string rawData);
+        public abstract object DeserializeData(string rawData);
     }
 }

@@ -94,7 +94,7 @@ namespace Mashup.Provider.Service.Deezer
         /// </summary>
         /// <param name="rawData"></param>
         /// <returns></returns>
-        public override object GetObjectData(string rawData)
+        public override object DeserializeData(string rawData)
         {
             return JsonBuilder.DeserializeJSon<DeezerArtist>(rawData);
         }

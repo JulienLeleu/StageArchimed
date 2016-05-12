@@ -66,25 +66,26 @@ namespace Mashup.Provider
         /// <summary>
         /// Sends a search object to all providers
         /// </summary>
-        /// <param name="sender">The send object</param>
+        /// <param name="sendObject">The send object</param>
         /// <returns>The response object</returns>
-        public async Task<ResultSetObject> SendAll(SendObject sender)
+        public async Task<ResultSetObject> GetObjectsDatasFromProviders(SendObject sendObject)
         {
-            if (sender == null)
+            if (sendObject == null)
             {
-                throw new NullReferenceException("L'objet de la classe " + sender.GetType() + " est null");
+                throw new NullReferenceException("L'objet de la classe " + sendObject.GetType() + " est null");
             }
 
             try
             {
-                Identifier identifierKey = GetIdentifierFromString(sender.IdentifierKey);
-                CultureInfo culture = GetCultureInfoFromString(sender.FavoriteLanguage);
+                Media mediaType = GetMediaTypeFromString(sendObject.MediaType);
+                Identifier identifierKey = GetIdentifierFromString(sendObject.IdentifierKey);
+                CultureInfo culture = GetCultureInfoFromString(sendObject.FavoriteLanguage);
                 Dictionary<string, Task<object>> tasksProvider = new Dictionary<string, Task<object>>();
                 Dictionary<string, object> responsesProvider = new Dictionary<string, object>();
 
-                foreach (IProvider p in this.GetProviders())
+                foreach (IProvider p in this.GetProviders().Where(p => p.MediaType == mediaType))
                 {
-                    tasksProvider.Add(p.GetType().ToString(), p.GetObjectData(sender.IdentifierValue, identifierKey, culture));
+                    tasksProvider.Add(p.GetType().ToString(), p.GetObjectData(sendObject.IdentifierValue, identifierKey, culture));
                 }
 
                 await Task.WhenAll(tasksProvider.Values);
@@ -99,13 +100,43 @@ namespace Mashup.Provider
 
                 return new ResultSetObject(responsesProvider);
             }
-            catch (IdentifierUnknownException)
+            catch (System.Exception)
             {
                 throw;
             }
-            catch (CultureUnknownException)
+        }
+
+        public async Task<Dictionary<string, string>> GetRawsDatasFromProviders(SendObject sendObject)
+        {
+            if (sendObject == null)
             {
-                throw;
+                throw new NullReferenceException("L'objet de la classe " + sendObject.GetType() + " est null");
+            }
+
+            try
+            {
+                Media mediaType = GetMediaTypeFromString(sendObject.MediaType);
+                Identifier identifierKey = GetIdentifierFromString(sendObject.IdentifierKey);
+                CultureInfo culture = GetCultureInfoFromString(sendObject.FavoriteLanguage);
+                Dictionary<string, Task<string>> tasksProvider = new Dictionary<string, Task<string>>();
+                Dictionary<string, string> responsesProvider = new Dictionary<string, string>();
+
+                foreach (IProvider p in this.GetProviders().Where(p => p.MediaType == mediaType))
+                {
+                    tasksProvider.Add(p.GetType().ToString(), p.GetRawData(sendObject.IdentifierValue, identifierKey, culture));
+                }
+
+                await Task.WhenAll(tasksProvider.Values);
+
+                foreach (string key in tasksProvider.Keys)
+                {
+                    if (tasksProvider[key].IsCompleted && tasksProvider[key].Result != null)
+                    {
+                        responsesProvider.Add(key, tasksProvider[key].Result);
+                    }
+                }
+
+                return responsesProvider;
             }
             catch (System.Exception)
             {
@@ -113,14 +144,35 @@ namespace Mashup.Provider
             }
         }
 
-        // public Dictionary<string, string> GetRawsDatasFromProviders(SendOject sendObject) {
-        // 
-        // }
+        public async Task<Dictionary<string, string>> GetRawsDataFromProvider(SendDBObject sendDBObject)
+        {
+            List<Task<Dictionary<string, string>>> tasks;
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            if (sendDBObject.Ean != null)
+            {
+                dict = dict.Concat(GetRawsDatasFromProviders(new SendObject(sendDBObject.MediaType, "Ean", sendDBObject.Ean, sendDBObject.Language)).Result).ToDictionary(e => e.Key, e => e.Value);
+            }
+            return null;
+        }
 
-        // public ResultSetObject GetObjectsDatasFromProviders(SendObject sendObject) {
-        //
-        // }
-        
+        /// <summary>
+        /// Gets identifier from a string
+        /// </summary>
+        /// <param name="identifier">The string identifier</param>
+        /// <returns>The identifier from Enum</returns>
+        internal static Media GetMediaTypeFromString(string mediaType)
+        {
+            foreach (Media i in Enum.GetValues(typeof(Media)))
+            {
+                if (mediaType.Equals(i.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return i;
+                }
+            }
+
+            throw new IdentifierUnknownException("This media \"" + mediaType + "\" doesn't match any Enum medias");
+        }
+
         /// <summary>
         /// Gets identifier from a string
         /// </summary>

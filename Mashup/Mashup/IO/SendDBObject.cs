@@ -11,9 +11,14 @@ namespace Mashup.IO
     /// The object sent to provider manager 
     /// </summary>
     [DataContract(Name = "SearchObject")]
-    [KnownType(typeof(SearchObject))]
-    public class SearchObject
+    [KnownType(typeof(SendDBObject))]
+    public class SendDBObject
     {
+        /// <summary>
+        /// The media type
+        /// </summary>
+        private string mediaType;
+        
         /// <summary>
         /// The title
         /// </summary>
@@ -41,12 +46,26 @@ namespace Mashup.IO
         /// <param name="author">The author</param>
         /// <param name="ean">The ean</param>
         /// <param name="language">The language</param>
-        public SearchObject(string title, string author, string ean, string language)
+        public SendDBObject(string mediaType, string title, string author, string ean, string language)
         {
+            this.MediaType = mediaType;
             this.Title = title;
             this.Author = author;
             this.Ean = ean;
             this.Language = language;
+        }
+
+        public string MediaType
+        {
+            get
+            {
+                return mediaType;
+            }
+
+            set
+            {
+                mediaType = value;
+            }
         }
 
         [DataMember]

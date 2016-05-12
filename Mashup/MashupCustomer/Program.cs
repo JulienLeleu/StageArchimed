@@ -26,7 +26,7 @@ namespace MashupCustomer
 
             try
             {
-                Task<ResultSetObject> t = manager.SendAll(new SendObject("MBID", "9c9f1380-2516-4fc9-a3e6-f9f61941d090", "FR"));
+                Task<ResultSetObject> t = manager.GetObjectsDatasFromProviders(new SendObject("Music", "MBID", "9c9f1380-2516-4fc9-a3e6-f9f61941d090", "FR"));
                 t.Wait();
                 ResultSetObject b = t.Result;
                 /*Console.WriteLine(b.GetJson());*/

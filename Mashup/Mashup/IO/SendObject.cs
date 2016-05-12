@@ -6,6 +6,7 @@
 namespace Mashup.IO
 {
     using Provider.Entity;
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -18,7 +19,9 @@ namespace Mashup.IO
         /// <summary>
         ///  The media type
         /// </summary>
-        private Media mediaType;
+        private string mediaType;
+
+        private Dictionary<string, string> identifiers;
 
         /// <summary>
         /// The identifier key
@@ -40,22 +43,46 @@ namespace Mashup.IO
         /// </summary>
         /// <param name="identifierKey">The identifier key</param>
         /// <param name="identifierValue">The identifier value</param>
-        public SendObject(string identifierKey, string identifierValue)
+        /// <param name="favoriteLanguage">The favorite language</param>
+        public SendObject(string mediaType, string identifierKey, string identifierValue, string favoriteLanguage)
         {
+            this.MediaType = mediaType;
             this.IdentifierKey = identifierKey;
             this.IdentifierValue = identifierValue;
-            this.FavoriteLanguage = "FR";
+            this.FavoriteLanguage = favoriteLanguage;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SendObject"/> class
+        /// 
         /// </summary>
-        /// <param name="identifierKey">The identifier key</param>
-        /// <param name="identifierValue">The identifier value</param>
-        /// <param name="favoriteLanguage">The favorite language</param>
-        public SendObject(string identifierKey, string identifierValue, string favoriteLanguage) : this(identifierKey, identifierValue)
+        [DataMember(Name = "MediaType")]
+        public string MediaType
         {
-            this.FavoriteLanguage = favoriteLanguage;
+            get
+            {
+                return mediaType;
+            }
+
+            set
+            {
+                mediaType = value;
+            }
+        }
+
+        /// <summary>
+        /// The identifiers
+        /// </summary>
+        public Dictionary<string, string> Identifiers
+        {
+            get
+            {
+                return identifiers;
+            }
+
+            set
+            {
+                identifiers = value;
+            }
         }
 
         /// <summary>
