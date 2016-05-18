@@ -21,7 +21,7 @@ namespace MashupCustomer
         /// <param name="args">The arguments</param>
         public static void Main(string[] args)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            /*Console.OutputEncoding = System.Text.Encoding.UTF8;
             ProviderManager manager = ProviderManager.GetInstance();
 
             try
@@ -29,7 +29,7 @@ namespace MashupCustomer
                 Task<ResultSetObject> t = manager.GetObjectsDatasFromProviders(new SendObject("Music", "MBID", "9c9f1380-2516-4fc9-a3e6-f9f61941d090", "FR"));
                 t.Wait();
                 ResultSetObject b = t.Result;
-                /*Console.WriteLine(b.GetJson());*/
+                Console.WriteLine(b.GetJson());
             }
             catch (Exception e)
             {
@@ -38,7 +38,7 @@ namespace MashupCustomer
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
-            Console.ReadKey();
+            Console.ReadKey();*/
         }
     }
 }

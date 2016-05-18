@@ -12,6 +12,7 @@ namespace Mashup.Provider.Service.LastFM
     using Model.Album;
     using Model.AlbumSearch;
     using Entity;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Class who implements <see cref="LastFMProvider"/> and provides information about Music Album from $$(Last>FM)$$ API
@@ -21,7 +22,7 @@ namespace Mashup.Provider.Service.LastFM
         /// <summary>
         /// Initializes a new instance of the <see cref="LastFMAlbumProvider"/> class.
         /// </summary>
-        public LastFMAlbumProvider() : base()
+        public LastFMAlbumProvider() : base(Method.Media)
         {
         }
 
@@ -32,17 +33,21 @@ namespace Mashup.Provider.Service.LastFM
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The response server</returns>
-        public override string RequestBuilder(string id, Identifier identifier, CultureInfo culture)
+        public override string RequestBuilder(Dictionary<Identifier, string> identifiers, CultureInfo culture)
         {
-            switch (identifier)
+            if (identifiers.ContainsKey(Identifier.Mbid))
             {
-                case Identifier.Mbid:
-                    return string.Format(CultureInfo.InvariantCulture, "{0}?method=album.getinfo&api_key={1}&mbid={2}&lang={3}&format={4}", this.Url, this.ApiKey, id, culture.TwoLetterISOLanguageName, "json");
-                case Identifier.Title:
-                    return string.Format(CultureInfo.InvariantCulture, "{0}?method=album.search&api_key={1}&album={2}&lang={3}&format={4}&limit=5", this.Url, this.ApiKey, id, culture.TwoLetterISOLanguageName, "json");
-                default:
-                    throw new IdentifierUnsupportedException("This identifier is not supported by " + this.GetType());
+                return string.Format(CultureInfo.InvariantCulture, "{0}?method=album.getinfo&api_key={1}&mbid={2}&lang={3}&format={4}", this.Url, this.ApiKey, identifiers[Identifier.Mbid], culture.TwoLetterISOLanguageName, "json");
             }
+            if (identifiers.ContainsKey(Identifier.Title))
+            {
+                if (identifiers.ContainsKey(Identifier.Author))
+                {
+                    return string.Format(CultureInfo.InvariantCulture, "{0}?method=album.search&api_key={1}&album={2}&artist={3}&lang={4}&format={5}&limit=5", this.Url, this.ApiKey, identifiers[Identifier.Title], identifiers[Identifier.Author], culture.TwoLetterISOLanguageName, "json");
+                }
+                return string.Format(CultureInfo.InvariantCulture, "{0}?method=album.search&api_key={1}&album={2}&lang={3}&format={4}&limit=5", this.Url, this.ApiKey, identifiers[Identifier.Title], culture.TwoLetterISOLanguageName, "json");
+            }
+            throw new IdentifierUnsupportedException("This identifier is not supported by " + this.GetType());
         }
 
         /// <summary>
@@ -53,25 +58,22 @@ namespace Mashup.Provider.Service.LastFM
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The raw data returned by web services</returns>
-        public override Task<string> GetRawData(string id, Identifier identifier, CultureInfo culture)
+        public override Task<string> GetRawData(Dictionary<Identifier, string> identifiers, CultureInfo culture)
         {
-            switch (identifier)
+            if (identifiers.ContainsKey(Identifier.Title))
             {
-                case Identifier.Title:
-                    Task<string> infoAlbum = SendRequest(id, identifier, culture);
-                    infoAlbum.Wait();
-                    LastFMAlbumSearch d = JsonBuilder.DeserializeJSon<LastFMAlbumSearch>(infoAlbum.Result);
-                    if (d == null || d.Results == null || d.Results.Albummatches == null || d.Results.Albummatches.Album == null || d.Results.Albummatches.Album.Count == 0)
-                    {
-                        var taskSource = new TaskCompletionSource<string>();
-                        taskSource.SetResult("");
-                        return taskSource.Task;
-                    }
-                    return this.GetRawData(d.Results.Albummatches.Album[0].Mbid, Identifier.Mbid, culture);
-
-                default:
-                    return this.SendRequest(id, identifier, culture);
+                Task<string> infoAlbum = SendRequest(identifiers, culture);
+                infoAlbum.Wait();
+                LastFMAlbumSearch d = JsonBuilder.DeserializeJSon<LastFMAlbumSearch>(infoAlbum.Result);
+                if (d == null || d.Results == null || d.Results.Albummatches == null || d.Results.Albummatches.Album == null || d.Results.Albummatches.Album.Count == 0)
+                {
+                    var taskSource = new TaskCompletionSource<string>();
+                    taskSource.SetResult("");
+                    return taskSource.Task;
+                }
+                return this.GetRawData(new Dictionary<Identifier, string>() {{ Identifier.Mbid, d.Results.Albummatches.Album[0].Mbid }}, culture);
             }
+            return this.SendRequest(identifiers, culture);
         }
 
         /// <summary>
@@ -82,9 +84,9 @@ namespace Mashup.Provider.Service.LastFM
         /// <param name="culture">The culture</param>
         /// <returns>The object data returned by web services</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Méthode jamais appelée, ne présente aucun danger")]
-        public override async Task<object> GetObjectData(string id, Identifier identifier, CultureInfo culture)
+        public override async Task<object> GetObjectData(Dictionary<Identifier, string> identifiers, CultureInfo culture)
         {
-            string result = await this.GetRawData(id, identifier, culture);
+            string result = await this.GetRawData(identifiers, culture);
             return JsonBuilder.DeserializeJSon<LastFMAlbum>(result);
         }
 

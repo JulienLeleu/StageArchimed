@@ -102,6 +102,7 @@
     <Compile Include="IO\ResultSetObject.cs" />
     <Compile Include="IO\SendObject.cs" />
     <Compile Include="Provider\Entity\Media.cs" />
+    <Compile Include="Provider\Entity\Method.cs" />
     <Compile Include="Provider\Exception\CultureUnknownException.cs" />
     <Compile Include="Provider\Exception\IdentifierUnknownException.cs" />
     <Compile Include="Provider\Exception\IdentifierUnsupportedException.cs" />

@@ -17,7 +17,7 @@ namespace Mashup.Provider.Service.LastFM
         /// Initializes a new instance of the <see cref="LastFMProvider"/> class.
         /// </summary>
         /// <param name="url">The main $$(Deezer)$$ url</param>
-        public LastFMProvider() : base(Media.Music, "http://ws.audioscrobbler.com/2.0", "b25b959554ed76058ac220b7b2e0a026")
+        public LastFMProvider(Method methodType) : base(Media.Music, methodType, "http://ws.audioscrobbler.com/2.0", "b25b959554ed76058ac220b7b2e0a026")
         {
         }
     }

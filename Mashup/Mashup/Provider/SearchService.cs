@@ -84,6 +84,13 @@ namespace Mashup.Provider
             return response;
         }
 
+        public InstanceServiceResponse<string[]> GetMethodTypes()
+        {
+            InstanceServiceResponse<string[]> response = new InstanceServiceResponse<string[]>();
+            response.Result = Enum.GetNames(typeof(Method)).ToArray();
+            return response;
+        }
+
         public InstanceServiceResponse<Dictionary<string,string>> GetDict()
         {
             InstanceServiceResponse<Dictionary<string, string>> response = new InstanceServiceResponse<Dictionary<string, string>>();
@@ -91,7 +98,7 @@ namespace Mashup.Provider
             test.Add("test", "test");
             test.Add("test2", "test2");
             response.Result = test;
-            return response;   
+            return response;
         }
     }
 }

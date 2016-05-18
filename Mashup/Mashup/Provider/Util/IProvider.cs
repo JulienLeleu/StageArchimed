@@ -8,6 +8,7 @@ namespace Mashup.Provider.Util
     using System.Globalization;
     using System.Threading.Tasks;
     using Entity;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provider Interface
@@ -18,6 +19,8 @@ namespace Mashup.Provider.Util
         /// Gets or sets the type of media
         /// </summary>
         Media MediaType { get; set; }
+
+        Method MethodType { get; set; }
 
         /// <summary>
         /// Gets or sets the url
@@ -36,7 +39,7 @@ namespace Mashup.Provider.Util
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The response server</returns>
-        string RequestBuilder(string id, Identifier identifier, CultureInfo culture);
+        string RequestBuilder(Dictionary<Identifier, string> identifiers, CultureInfo culture);
 
         /// <summary>
         /// Gets the raw data from a request, in which you have to provide an identifier and its value.
@@ -45,7 +48,7 @@ namespace Mashup.Provider.Util
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The raw data returned by web services</returns>
-        Task<string> GetRawData(string id, Identifier identifier, CultureInfo culture);
+        Task<string> GetRawData(Dictionary<Identifier, string> identifiers, CultureInfo culture);
 
         /// <summary>
         /// Get the data as an object T from a request, in which you have to provide an identifier and its value. 
@@ -55,7 +58,7 @@ namespace Mashup.Provider.Util
         /// <param name="culture">The culture</param>
         /// <returns>The object data returned by web services</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Méthode jamais appelée, ne présente aucun danger")]
-        Task<object> GetObjectData(string id, Identifier identifier, CultureInfo culture);
+        Task<object> GetObjectData(Dictionary<Identifier, string> identifiers, CultureInfo culture);
 
         object DeserializeData(string rawData);
 
@@ -66,6 +69,6 @@ namespace Mashup.Provider.Util
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The response</returns>
-        Task<string> SendRequest(string id, Identifier identifier, CultureInfo culture);
+        Task<string> SendRequest(Dictionary<Identifier, string> identifiers, CultureInfo culture);
     }
 }

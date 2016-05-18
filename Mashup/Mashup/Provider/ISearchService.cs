@@ -47,6 +47,10 @@ namespace Mashup.Provider
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
+        InstanceServiceResponse<string[]> GetMethodTypes();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest)]
         InstanceServiceResponse<Dictionary<string, string>> GetDict();
     }
 }

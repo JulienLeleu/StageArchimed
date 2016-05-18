@@ -21,35 +21,33 @@ namespace Mashup.IO
         /// </summary>
         private string mediaType;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private string methodType;
+
+        /// <summary>
+        /// The identifiers
+        /// </summary>
         private Dictionary<string, string> identifiers;
-
-        /// <summary>
-        /// The identifier key
-        /// </summary>
-        private string identifierKey;
-
-        /// <summary>
-        /// The identifier value
-        /// </summary>
-        private string identifierValue;
 
         /// <summary>
         /// The favorite language
         /// </summary>
-        private string favoriteLanguage;
+        private string language;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SendObject"/> class
+        /// 
         /// </summary>
-        /// <param name="identifierKey">The identifier key</param>
-        /// <param name="identifierValue">The identifier value</param>
-        /// <param name="favoriteLanguage">The favorite language</param>
-        public SendObject(string mediaType, string identifierKey, string identifierValue, string favoriteLanguage)
+        /// <param name="mediaType"></param>
+        /// <param name="identifiers"></param>
+        /// <param name="language"></param>
+        public SendObject(string mediaType, string methodType, Dictionary<string, string> identifiers, string language)
         {
             this.MediaType = mediaType;
-            this.IdentifierKey = identifierKey;
-            this.IdentifierValue = identifierValue;
-            this.FavoriteLanguage = favoriteLanguage;
+            this.MethodType = methodType;
+            this.Identifiers = identifiers;
+            this.Language = language;
         }
 
         /// <summary>
@@ -70,8 +68,26 @@ namespace Mashup.IO
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "MethodType")]
+        public string MethodType
+        {
+            get
+            {
+                return methodType;
+            }
+
+            set
+            {
+                methodType = value;
+            }
+        }
+
+        /// <summary>
         /// The identifiers
         /// </summary>
+        [DataMember(Name = "Identifiers")]
         public Dictionary<string, string> Identifiers
         {
             get
@@ -83,56 +99,22 @@ namespace Mashup.IO
             {
                 identifiers = value;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the identifier key
-        /// </summary>
-        [DataMember(Name = "IdentifierKey")]
-        public string IdentifierKey
-        {
-            get
-            {
-                return this.identifierKey;
-            }
-
-            set
-            {
-                this.identifierKey = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the identifier value
-        /// </summary>
-        [DataMember(Name = "IdentifierValue")]
-        public string IdentifierValue
-        {
-            get
-            {
-                return this.identifierValue;
-            }
-
-            set
-            {
-                this.identifierValue = value;
-            }
-        }
+        }        
 
         /// <summary>
         /// Gets or sets the favorite language
         /// </summary>
         [DataMember(Name = "FavoriteLanguage")]
-        public string FavoriteLanguage
+        public string Language
         {
             get
             {
-                return this.favoriteLanguage;
+                return this.language;
             }
 
             set
             {
-                this.favoriteLanguage = value;
+                this.language = value;
             }
         }
     }

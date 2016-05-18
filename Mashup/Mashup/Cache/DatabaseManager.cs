@@ -63,26 +63,28 @@
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                //SqlTransaction transaction = con.BeginTransaction(System.Data.IsolationLevel.RepeatableRead);
                 string query = @"SELECT TOP 1 Id, Status 
                             FROM dbo.mashup_media 
                             WHERE (@title IS NULL OR Title=@title) 
-                            AND (@author IS NULL OR Author=@author) 
+                            AND (@author IS NULL OR Id_author IN (SELECT Id FROM mashup_author WHERE Name=@author)) 
                             AND (@ean IS NULL OR Ean=@ean) 
-                            AND (@language IS NULL OR Language=@language)";
+                            AND (@language IS NULL OR Language=@language)
+                            AND (@mediaType IS NULL OR MediaType=@mediaType)";
                 SqlCommand cmd = new SqlCommand(query, con);
 
-                //cmd.Transaction = transaction;
                 cmd.Prepare();
                 cmd.Parameters.AddWithValue("@title", (object)searchObject.Title ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@author", (object)searchObject.Author ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@ean", (object)searchObject.Ean ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@language", (object)searchObject.Language ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@mediaType", (object)searchObject.MediaType ?? DBNull.Value);
 
                 using (SqlDataReader rdr = cmd.ExecuteReader())
                 {
                     while (rdr.Read())
                     {
+                        int v1 = (int)rdr["Id"];
+                        int v2 = (int)rdr["Status"];
                         return new Tuple<int?, int?>((int?)rdr["Id"], (int?)rdr["Status"]);
                     }
                     return null;
@@ -101,8 +103,9 @@
             {
                 con.Open();
                 //SqlTransaction transaction = con.BeginTransaction(System.Data.IsolationLevel.RepeatableRead);
-                string query = @"SELECT p.Name as Provider, d.Data, m.Author 
+                string query = @"SELECT p.Name as Provider, d.Data as Data, a.Name as Author 
                             FROM mashup_media as m 
+                            INNER JOIN mashup_author as a ON m.Id_author = a.Id
                             INNER JOIN mashup_media_data as d ON m.Id = d.Id_media 
                             INNER JOIN mashup_provider as p ON d.Id_provider = p.Id 
                             WHERE m.Id=@Id ;";
@@ -129,6 +132,31 @@
             }
         }
 
+        public int? getAuthorId(string authorName)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                string query = @"SELECT TOP 1 Id 
+                            FROM dbo.mashup_author 
+                            WHERE Name=@name";
+                SqlCommand cmd = new SqlCommand(query, con);
+
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@name", (object)authorName ?? DBNull.Value);
+
+                using (SqlDataReader rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        return (int?)(rdr["Id"] == DBNull.Value ? null : rdr["Id"]);
+                    }
+                    return null;
+                }
+            }
+        }
+
         /// <summary>
         /// Post in database a media 
         /// </summary>
@@ -137,21 +165,42 @@
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
+                int? idAuthor = (string.IsNullOrEmpty(searchObject.Author) ? null : ((getAuthorId(searchObject.Author) ?? postAuthor(searchObject.Author))));
                 con.Open();
                 string query = @"INSERT INTO dbo.mashup_media 
-                                (Title, Author, Ean, Language, MediaType, Created_on, Updated_on, Status) 
+                                (Title, Id_author, Ean, Language, MediaType, Created_on, Updated_on, Status) 
                                 VALUES 
-                                (@title, @author, @ean, @language, @mediaType, GETDATE(), GETDATE(), @status)";
-                SqlCommand cmd = new SqlCommand(query, con);
+                                (@title, @id_author, @ean, @language, @mediaType, GETDATE(), GETDATE(), @mediaStatus);";
 
+                // methode pour récup
+                SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Prepare();
                 cmd.Parameters.AddWithValue("@title", (object)searchObject.Title ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@author", (object)searchObject.Author ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@id_author", (object)idAuthor ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@ean", (object)searchObject.Ean ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@language", (object)searchObject.Language ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@mediaType", (object)searchObject.MediaType ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@status", (int)Status.Waiting);
+                cmd.Parameters.AddWithValue("@mediaStatus", (int)Status.Waiting);
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public int? postAuthor(string authorName)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = @"INSERT INTO dbo.mashup_author
+                                (Name, Created_on, Updated_on, Status)
+                                OUTPUT INSERTED.Id
+                                VALUES
+                                (@authorName, GETDATE(), GETDATE(), @authorStatus);";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@authorName", (object)authorName ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@authorStatus", (int)Status.Waiting);
+                return (int?)cmd.ExecuteScalar();
             }
         }
     }

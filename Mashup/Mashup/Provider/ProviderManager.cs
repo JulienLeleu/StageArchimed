@@ -35,7 +35,7 @@ namespace Mashup.Provider
         /// <summary>
         /// List the types of the models contained in folder Model of each Services (used by ResultSetObject)
         /// </summary>
-        private IEnumerable<Type> modelsTypes;
+        private IEnumerable<System.Type> modelsTypes;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="ProviderManager"/> class from being created.
@@ -78,14 +78,15 @@ namespace Mashup.Provider
             try
             {
                 Media mediaType = GetMediaTypeFromString(sendObject.MediaType);
-                Identifier identifierKey = GetIdentifierFromString(sendObject.IdentifierKey);
-                CultureInfo culture = GetCultureInfoFromString(sendObject.FavoriteLanguage);
+                Method methodType = GetMethodTypeFromString(sendObject.MethodType);
+                CultureInfo culture = GetCultureInfoFromString(sendObject.Language);
+                Dictionary<Identifier, string> identifiers = GetIdentifiersFromString(sendObject.Identifiers);
                 Dictionary<string, Task<object>> tasksProvider = new Dictionary<string, Task<object>>();
                 Dictionary<string, object> responsesProvider = new Dictionary<string, object>();
 
-                foreach (IProvider p in this.GetProviders().Where(p => p.MediaType == mediaType))
+                foreach (IProvider p in this.GetProviders().Where(p => p.MediaType == mediaType && p.MethodType == methodType))
                 {
-                    tasksProvider.Add(p.GetType().ToString(), p.GetObjectData(sendObject.IdentifierValue, identifierKey, culture));
+                    tasksProvider.Add(p.GetType().ToString(), p.GetObjectData(identifiers, culture));
                 }
 
                 await Task.WhenAll(tasksProvider.Values);
@@ -116,21 +117,22 @@ namespace Mashup.Provider
             try
             {
                 Media mediaType = GetMediaTypeFromString(sendObject.MediaType);
-                Identifier identifierKey = GetIdentifierFromString(sendObject.IdentifierKey);
-                CultureInfo culture = GetCultureInfoFromString(sendObject.FavoriteLanguage);
+                Method methodType = GetMethodTypeFromString(sendObject.MethodType);
+                CultureInfo culture = GetCultureInfoFromString(sendObject.Language);
+                Dictionary<Identifier, string> identifiers = GetIdentifiersFromString(sendObject.Identifiers);
                 Dictionary<string, Task<string>> tasksProvider = new Dictionary<string, Task<string>>();
                 Dictionary<string, string> responsesProvider = new Dictionary<string, string>();
 
-                foreach (IProvider p in this.GetProviders().Where(p => p.MediaType == mediaType))
+                foreach (IProvider p in this.GetProviders().Where(p => p.MediaType == mediaType && p.MethodType == methodType))
                 {
-                    tasksProvider.Add(p.GetType().ToString(), p.GetRawData(sendObject.IdentifierValue, identifierKey, culture));
+                    tasksProvider.Add(p.GetType().ToString(), p.GetRawData(identifiers, culture));
                 }
 
                 await Task.WhenAll(tasksProvider.Values);
 
                 foreach (string key in tasksProvider.Keys)
                 {
-                    if (tasksProvider[key].IsCompleted && tasksProvider[key].Result != null)
+                    if (tasksProvider[key].IsCompleted && !string.IsNullOrEmpty(tasksProvider[key].Result))
                     {
                         responsesProvider.Add(key, tasksProvider[key].Result);
                     }
@@ -142,17 +144,6 @@ namespace Mashup.Provider
             {
                 throw;
             }
-        }
-
-        public async Task<Dictionary<string, string>> GetRawsDataFromProvider(SendDBObject sendDBObject)
-        {
-            List<Task<Dictionary<string, string>>> tasks;
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-            if (sendDBObject.Ean != null)
-            {
-                dict = dict.Concat(GetRawsDatasFromProviders(new SendObject(sendDBObject.MediaType, "Ean", sendDBObject.Ean, sendDBObject.Language)).Result).ToDictionary(e => e.Key, e => e.Value);
-            }
-            return null;
         }
 
         /// <summary>
@@ -173,6 +164,19 @@ namespace Mashup.Provider
             throw new IdentifierUnknownException("This media \"" + mediaType + "\" doesn't match any Enum medias");
         }
 
+        internal static Method GetMethodTypeFromString(string methodType)
+        {
+            foreach (Method i in Enum.GetValues(typeof(Method)))
+            {
+                if (methodType.Equals(i.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return i;
+                }
+            }
+
+            throw new IdentifierUnknownException("This method \"" + methodType + "\" doesn't match any Enum methods");
+        }
+
         /// <summary>
         /// Gets identifier from a string
         /// </summary>
@@ -189,6 +193,16 @@ namespace Mashup.Provider
             }
 
             throw new IdentifierUnknownException("This identifier \"" + identifier + "\" doesn't match any Enum identifiers");
+        }
+
+        internal static Dictionary<Identifier, string> GetIdentifiersFromString(Dictionary<string, string> identifiers)
+        {
+            Dictionary<Identifier, string> dict = new Dictionary<Identifier, string>();
+            foreach (string key in identifiers.Keys)
+            {
+                dict.Add(GetIdentifierFromString(key), identifiers[key]);
+            }
+            return dict;
         }
 
         /// <summary>
@@ -232,7 +246,7 @@ namespace Mashup.Provider
         /// Gets all the providers
         /// </summary>
         /// <returns>List of providers</returns>
-        internal IEnumerable<Type> GetModelsTypes()
+        internal IEnumerable<System.Type> GetModelsTypes()
         {
             return this.modelsTypes;
         }

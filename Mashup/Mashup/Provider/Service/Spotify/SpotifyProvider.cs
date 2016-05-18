@@ -17,7 +17,7 @@ namespace Mashup.Provider.Service.Spotify
         /// Initializes a new instance of the <see cref="DeezerProvider"/> class.
         /// </summary>
         /// <param name="url">The main $$(Spotify)$$ url</param>
-        public SpotifyProvider() : base(Media.Music, "https://api.spotify.com/v1/", null)
+        public SpotifyProvider(Method methodType) : base(Media.Music, methodType, "https://api.spotify.com/v1/", null)
         {
         }
     }

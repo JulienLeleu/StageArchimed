@@ -11,7 +11,8 @@ namespace Mashup.Provider.Util
     using System.Text;
     using System.Threading.Tasks;
     using Entity;
-    
+    using System.Collections.Generic;
+
     /// <summary>
     /// Abstract class of a provider as $$(Deezer)$$, $$(Spotify)$$ ...
     /// </summary>
@@ -22,6 +23,11 @@ namespace Mashup.Provider.Util
         /// </summary>
         private Media mediaType;
 
+        /// <summary>
+        /// The type of method
+        /// </summary>
+        private Method methodType;
+        
         /// <summary>
         /// API main URL
         /// </summary>
@@ -36,9 +42,10 @@ namespace Mashup.Provider.Util
         /// Initializes a new instance of the <see cref="AbstractProvider"/> class.
         /// </summary>
         /// <param name="url">The API main URL</param>
-        internal AbstractProvider(Media mediaType, string url)
+        internal AbstractProvider(Media mediaType, Method methodType, string url)
         {
             this.MediaType = mediaType;
+            this.MethodType = methodType;
             this.Url = url;
             this.ApiKey = null;
         }
@@ -48,7 +55,7 @@ namespace Mashup.Provider.Util
         /// </summary>
         /// <param name="url">The API main URL</param>
         /// <param name="apiKey">The API key</param>
-        internal AbstractProvider(Media mediaType, string url, string apiKey) : this(mediaType, url)
+        internal AbstractProvider(Media mediaType, Method methodType, string url, string apiKey) : this(mediaType, methodType, url)
         {
             this.ApiKey = apiKey;
         }
@@ -66,6 +73,22 @@ namespace Mashup.Provider.Util
             set
             {
                 mediaType = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the type of method
+        /// </summary>
+        public Method MethodType
+        {
+            get
+            {
+                return methodType;
+            }
+
+            set
+            {
+                methodType = value;
             }
         }
 
@@ -108,7 +131,7 @@ namespace Mashup.Provider.Util
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The response server</returns>
-        public abstract string RequestBuilder(string id, Identifier identifier, CultureInfo culture);
+        public abstract string RequestBuilder(Dictionary<Identifier, string> identifiers, CultureInfo culture);
 
         /// <summary>
         /// Gets the raw data from a request, in which you have to provide an identifier and its value.
@@ -117,7 +140,7 @@ namespace Mashup.Provider.Util
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The raw data returned by web services</returns>
-        public abstract Task<string> GetRawData(string id, Identifier identifier, CultureInfo culture);
+        public abstract Task<string> GetRawData(Dictionary<Identifier, string> identifiers, CultureInfo culture);
 
         /// <summary>
         /// Get the data as an object T from a request, in which you have to provide an identifier and its value. 
@@ -126,7 +149,7 @@ namespace Mashup.Provider.Util
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The object data returned by web services</returns>
-        public abstract Task<object> GetObjectData(string id, Identifier identifier, CultureInfo culture);
+        public abstract Task<object> GetObjectData(Dictionary<Identifier, string> identifiers, CultureInfo culture);
 
         /// <summary>
         /// Send a request with an Identifier and its value then get the response
@@ -135,12 +158,12 @@ namespace Mashup.Provider.Util
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The response</returns>
-        public async Task<string> SendRequest(string id, Identifier identifier, CultureInfo culture)
+        public async Task<string> SendRequest(Dictionary<Identifier, string> identifiers, CultureInfo culture)
         {
             var client = new WebClient() { Encoding = Encoding.UTF8 };
             try
             {
-                Uri url = new Uri(this.RequestBuilder(id, identifier, culture));
+                Uri url = new Uri(this.RequestBuilder(identifiers, culture));
                 return await client.DownloadStringTaskAsync(url.ToString());
             }
             catch (Exception e)

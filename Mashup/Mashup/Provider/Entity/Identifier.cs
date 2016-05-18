@@ -16,19 +16,19 @@ namespace Mashup.Provider.Entity
         Ean,
 
         /// <summary>
-        /// Represents the International Standard Book Number
-        /// </summary>
-        Isbn,
-
-        /// <summary>
         /// Represents the $$(Music Brainz)$$ ID
         /// </summary>
         Mbid,
 
         /// <summary>
-        /// Represents the API specific identifier
+        /// Represents the API specific identifier for a title
         /// </summary>
-        Id,
+        Id_Title,
+
+        /// <summary>
+        /// Represents the API specific identifier for an author
+        /// </summary>
+        Id_Author,
 
         /// <summary>
         /// 

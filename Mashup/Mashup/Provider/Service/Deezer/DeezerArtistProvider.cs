@@ -12,7 +12,7 @@ namespace Mashup.Provider.Service.Deezer
     using Model.Artist;
     using Model.Search;
     using Entity;
-
+    using System.Collections.Generic;
     /// <summary>
     /// Class who implements <see cref="DeezerProvider"/> and provide information about Music Artist from $$(Deezer)$$ API
     /// </summary>
@@ -21,7 +21,7 @@ namespace Mashup.Provider.Service.Deezer
         /// <summary>
         /// Initializes a new instance of the <see cref="DeezerArtistProvider"/> class.
         /// </summary>
-        public DeezerArtistProvider() : base()
+        public DeezerArtistProvider() : base(Method.Artist)
         {
         }
 
@@ -32,18 +32,17 @@ namespace Mashup.Provider.Service.Deezer
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The response server</returns>
-        public override string RequestBuilder(string id, Identifier identifier, CultureInfo culture)
+        public override string RequestBuilder(Dictionary<Identifier, string> identifiers, CultureInfo culture)
         {
-            switch (identifier)
+            if (identifiers.ContainsKey(Identifier.Id_Author))
             {
-                case Identifier.Id:
-                    return string.Format(CultureInfo.InvariantCulture, "{0}artist/{1}", this.Url, id);
-                case Identifier.Author:
-                    return string.Format(CultureInfo.InvariantCulture, "{0}search?q={1}", this.Url, (string.IsNullOrEmpty(id) ? "" : "artist:" + id));
-
-                default:
-                    throw new IdentifierUnsupportedException("This identifier is not supported by " + this.GetType());
+                return string.Format(CultureInfo.InvariantCulture, "{0}artist/{1}", this.Url, identifiers[Identifier.Id_Author]);
             }
+            if (identifiers.ContainsKey(Identifier.Title))
+            {
+                return string.Format(CultureInfo.InvariantCulture, "{0}search?q={1}", this.Url, (string.IsNullOrEmpty(identifiers[Identifier.Author]) ? "" : "artist:" + identifiers[Identifier.Author]));
+            }
+            throw new IdentifierUnsupportedException("This identifier is not supported by " + this.GetType());
         }
 
         /// <summary>
@@ -54,26 +53,23 @@ namespace Mashup.Provider.Service.Deezer
         /// <param name="identifier">The identifier</param>
         /// <param name="culture">The culture</param>
         /// <returns>The raw data returned by web services</returns>
-        public override Task<string> GetRawData(string id, Identifier identifier, CultureInfo culture)
+        public override Task<string> GetRawData(Dictionary<Identifier, string> identifiers, CultureInfo culture)
         {
-            switch (identifier)
+            if (identifiers.ContainsKey(Identifier.Author))
             {
-               case Identifier.Author:
-                    Task<string> infoArtist = SendRequest(id, identifier, culture);
-                    infoArtist.Wait();
-                    DeezerSearch d = JsonBuilder.DeserializeJSon<DeezerSearch>(infoArtist.Result);
-                    if (d == null || d.Data == null || d.Data.Count == 0)
-                    {
-                        var taskSource = new TaskCompletionSource<string>();
-                        taskSource.SetResult("");
-                        return taskSource.Task;
-                    }
-                    return this.GetRawData(d.Data[0].Artist.Id, Identifier.Id, culture);
-
-                default:
-                    return this.SendRequest(id, identifier, culture);
+                Task<string> infoArtist = SendRequest(identifiers, culture);
+                infoArtist.Wait();
+                DeezerSearch d = JsonBuilder.DeserializeJSon<DeezerSearch>(infoArtist.Result);
+                if (d == null || d.Data == null || d.Data.Count == 0)
+                {
+                    var taskSource = new TaskCompletionSource<string>();
+                    taskSource.SetResult("");
+                    return taskSource.Task;
+                }
+                return this.GetRawData(new Dictionary<Identifier, string>() { { Identifier.Id_Author, d.Data[0].Artist.Id } }, culture);
             }
-        }
+            return this.SendRequest(identifiers, culture);
+       }
 
         /// <summary>
         /// Get the data as an object T from a request, in which you have to provide an identifier and its value. 
@@ -83,9 +79,9 @@ namespace Mashup.Provider.Service.Deezer
         /// <param name="culture">The culture</param>
         /// <returns>The object data returned by web services</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Méthode jamais appelée, ne présente aucun danger")]
-        public override async Task<object> GetObjectData(string id, Identifier identifier, CultureInfo culture)
+        public override async Task<object> GetObjectData(Dictionary<Identifier, string> identifiers, CultureInfo culture)
         {
-            string result = await this.GetRawData(id, identifier, culture);
+            string result = await this.GetRawData(identifiers, culture);
             return JsonBuilder.DeserializeJSon<DeezerArtist>(result);
         }
 
